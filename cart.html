@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Il mio carrello – Velora Home</title>
+<style>
+  :root {
+    --color-bg: #ffffff;
+    --color-fg: #111111;
+    --color-fg-muted: #6f6f6f;
+    --color-primary: #111111;
+    --color-primary-dark: #000000;
+    --color-primary-contrast: #ffffff;
+    --color-tan-light: #f5f5f5;
+    --color-tan: #ececec;
+    --color-border: #e2e2e2;
+    --font-body: "Work Sans", "Instrument Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: var(--font-body);
+    color: var(--color-fg);
+    background: var(--color-bg);
+  }
+  a { color: inherit; }
+  header.site-header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 18px 16px;
+    border-bottom: 1px solid var(--color-border);
+    background: var(--color-tan-light);
+  }
+  header.site-header img { height: 32px; width: auto; }
+  main {
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 24px 16px 64px;
+  }
+  h1.page-title {
+    font-size: 1.6rem;
+    font-weight: 600;
+    margin: 8px 0 24px;
+  }
+  .cart-empty {
+    text-align: center;
+    padding: 48px 16px;
+    color: var(--color-fg-muted);
+  }
+  .cart-empty a {
+    display: inline-block;
+    margin-top: 16px;
+    padding: 12px 24px;
+    background: var(--color-primary);
+    color: var(--color-primary-contrast);
+    text-decoration: none;
+    border-radius: 4px;
+    font-weight: 600;
+  }
+  .cart-items { display: flex; flex-direction: column; gap: 16px; }
+  .cart-item {
+    display: grid;
+    grid-template-columns: 84px 1fr auto;
+    gap: 14px;
+    align-items: center;
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--color-border);
+  }
+  .cart-item img {
+    width: 84px;
+    height: 84px;
+    object-fit: cover;
+    border-radius: 6px;
+    background: var(--color-tan-light);
+  }
+  .cart-item__title {
+    font-weight: 600;
+    font-size: 0.95rem;
+    margin: 0 0 6px;
+  }
+  .cart-item__price {
+    color: var(--color-fg-muted);
+    font-size: 0.9rem;
+    margin: 0 0 10px;
+  }
+  .qty-stepper {
+    display: inline-flex;
+    align-items: center;
+    border: 1px solid var(--color-border);
+    border-radius: 4px;
+    overflow: hidden;
+  }
+  .qty-stepper button {
+    width: 30px;
+    height: 30px;
+    border: none;
+    background: transparent;
+    font-size: 1rem;
+    cursor: pointer;
+    color: var(--color-fg);
+  }
+  .qty-stepper button:hover { background: var(--color-tan-light); }
+  .qty-stepper span {
+    min-width: 28px;
+    text-align: center;
+    font-size: 0.9rem;
+  }
+  .cart-item__side {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 10px;
+  }
+  .cart-item__line-total { font-weight: 600; font-size: 0.95rem; }
+  .remove-btn {
+    background: none;
+    border: none;
+    color: var(--color-fg-muted);
+    text-decoration: underline;
+    font-size: 0.8rem;
+    cursor: pointer;
+    padding: 0;
+  }
+  .remove-btn:hover { color: var(--color-primary-dark); }
+  .cart-summary {
+    margin-top: 24px;
+    padding-top: 16px;
+    border-top: 2px solid var(--color-fg);
+  }
+  .cart-summary__row {
+    display: flex;
+    justify-content: space-between;
+    font-size: 1.05rem;
+    font-weight: 600;
+    margin-bottom: 4px;
+  }
+  .cart-summary__note {
+    color: var(--color-fg-muted);
+    font-size: 0.82rem;
+    margin: 0 0 18px;
+  }
+  .checkout-btn {
+    display: block;
+    width: 100%;
+    padding: 14px;
+    background: var(--color-primary);
+    color: var(--color-primary-contrast);
+    border: none;
+    border-radius: 4px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+  }
+  .checkout-btn:hover { background: var(--color-primary-dark); }
+  .checkout-note {
+    text-align: center;
+    font-size: 0.82rem;
+    color: var(--color-fg-muted);
+    margin-top: 10px;
+    min-height: 1em;
+  }
+  .continue-shopping {
+    display: inline-block;
+    margin-top: 14px;
+    font-size: 0.85rem;
+    text-decoration: underline;
+    color: var(--color-fg-muted);
+  }
+  section.upsell {
+    margin-top: 56px;
+  }
+  section.upsell h2 {
+    font-size: 1.2rem;
+    font-weight: 600;
+    margin-bottom: 18px;
+  }
+  .upsell-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+  }
+  @media (min-width: 560px) {
+    .upsell-grid { grid-template-columns: repeat(4, 1fr); }
+  }
+  .upsell-card {
+    border: 1px solid var(--color-border);
+    border-radius: 8px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+  }
+  .upsell-card a { text-decoration: none; color: inherit; }
+  .upsell-card img {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+    background: var(--color-tan-light);
+    display: block;
+  }
+  .upsell-card__body { padding: 10px; display: flex; flex-direction: column; gap: 6px; flex: 1; }
+  .upsell-card__title {
+    font-size: 0.82rem;
+    font-weight: 600;
+    line-height: 1.3;
+    min-height: 2.6em;
+  }
+  .upsell-card__price { font-size: 0.85rem; color: var(--color-fg-muted); }
+  .upsell-card__price .compare {
+    text-decoration: line-through;
+    margin-left: 6px;
+    opacity: 0.7;
+  }
+  .upsell-card__add {
+    margin-top: auto;
+    padding: 8px;
+    background: var(--color-tan);
+    border: none;
+    border-radius: 4px;
+    font-size: 0.78rem;
+    font-weight: 600;
+    cursor: pointer;
+    color: var(--color-fg);
+  }
+  .upsell-card__add:hover { background: var(--color-primary); color: var(--color-primary-contrast); }
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <a href="index.html"><img src="cdn/shop/files/velora_logo.png@height=156&v=1784760651" alt="Velora Home"></a>
+</header>
+
+<main>
+  <h1 class="page-title">Il mio carrello</h1>
+  <div id="cart-root"></div>
+
+  <section class="upsell">
+    <h2>Potresti anche apprezzare</h2>
+    <div class="upsell-grid" id="upsell-root"></div>
+  </section>
+</main>
+
+<script src="cart.js"></script>
+<script>
+(function () {
+  var cart = window.VeloraCart;
+
+  function render() {
+    var items = cart.getCart();
+    var root = document.getElementById("cart-root");
+    root.innerHTML = "";
+
+    if (items.length === 0) {
+      var empty = document.createElement("div");
+      empty.className = "cart-empty";
+      empty.innerHTML = "<p>Il tuo carrello è vuoto.</p><a href=\"index.html\">Continua lo shopping</a>";
+      root.appendChild(empty);
+      renderUpsell(items);
+      return;
+    }
+
+    var list = document.createElement("div");
+    list.className = "cart-items";
+
+    var subtotal = 0;
+    items.forEach(function (item) {
+      subtotal += item.price * item.qty;
+
+      var row = document.createElement("div");
+      row.className = "cart-item";
+      row.innerHTML =
+        "<img src=\"" + item.image + "\" alt=\"" + escapeHtml(item.title) + "\">" +
+        "<div>" +
+          "<p class=\"cart-item__title\">" + escapeHtml(item.title) + "</p>" +
+          "<p class=\"cart-item__price\">" + cart.formatPrice(item.price) + " cad.</p>" +
+          "<div class=\"qty-stepper\" data-id=\"" + escapeHtml(item.id) + "\">" +
+            "<button type=\"button\" class=\"qty-minus\" aria-label=\"Diminuisci quantità\">−</button>" +
+            "<span>" + item.qty + "</span>" +
+            "<button type=\"button\" class=\"qty-plus\" aria-label=\"Aumenta quantità\">+</button>" +
+          "</div>" +
+        "</div>" +
+        "<div class=\"cart-item__side\">" +
+          "<span class=\"cart-item__line-total\">" + cart.formatPrice(item.price * item.qty) + "</span>" +
+          "<button type=\"button\" class=\"remove-btn\" data-id=\"" + escapeHtml(item.id) + "\">Rimuovi</button>" +
+        "</div>";
+      list.appendChild(row);
+    });
+
+    root.appendChild(list);
+
+    var summary = document.createElement("div");
+    summary.className = "cart-summary";
+    summary.innerHTML =
+      "<div class=\"cart-summary__row\"><span>Subtotale</span><span>" + cart.formatPrice(subtotal) + "</span></div>" +
+      "<p class=\"cart-summary__note\">Spedizione e tasse calcolate al checkout.</p>" +
+      "<button type=\"button\" class=\"checkout-btn\" id=\"checkout-btn\">Vai al Checkout</button>" +
+      "<p class=\"checkout-note\" id=\"checkout-note\"></p>";
+    root.appendChild(summary);
+
+    var continueLink = document.createElement("a");
+    continueLink.className = "continue-shopping";
+    continueLink.href = "index.html";
+    continueLink.textContent = "← Continua lo shopping";
+    root.appendChild(continueLink);
+
+    root.querySelectorAll(".qty-minus").forEach(function (btn) {
+      btn.addEventListener("click", function () {
+        var id = btn.closest(".qty-stepper").getAttribute("data-id");
+        var item = cart.getCart().find(function (i) { return i.id === id; });
+        if (item) { cart.setQty(id, item.qty - 1); render(); }
+      });
+    });
+    root.querySelectorAll(".qty-plus").forEach(function (btn) {
+      btn.addEventListener("click", function () {
+        var id = btn.closest(".qty-stepper").getAttribute("data-id");
+        var item = cart.getCart().find(function (i) { return i.id === id; });
+        if (item) { cart.setQty(id, item.qty + 1); render(); }
+      });
+    });
+    root.querySelectorAll(".remove-btn").forEach(function (btn) {
+      btn.addEventListener("click", function () {
+        cart.removeFromCart(btn.getAttribute("data-id"));
+        render();
+      });
+    });
+
+    document.getElementById("checkout-btn").addEventListener("click", function () {
+      document.getElementById("checkout-note").textContent = "Il checkout sarà disponibile a breve.";
+    });
+
+    renderUpsell(items);
+  }
+
+  function renderUpsell(items) {
+    var handlesInCart = {};
+    items.forEach(function (i) { handlesInCart[i.handle] = true; });
+
+    var upsellRoot = document.getElementById("upsell-root");
+    upsellRoot.innerHTML = "";
+
+    var candidates = cart.PRODUCTS.filter(function (p) { return !handlesInCart[p.handle]; });
+    if (candidates.length === 0) candidates = cart.PRODUCTS;
+
+    candidates.forEach(function (p) {
+      var card = document.createElement("div");
+      card.className = "upsell-card";
+      card.innerHTML =
+        "<a href=\"" + p.url + "\">" +
+          "<img src=\"" + p.image + "\" alt=\"" + escapeHtml(p.title) + "\">" +
+          "<div class=\"upsell-card__body\">" +
+            "<span class=\"upsell-card__title\">" + escapeHtml(p.title) + "</span>" +
+            "<span class=\"upsell-card__price\">" + cart.formatPrice(p.price) +
+              (p.compareAtPrice ? "<span class=\"compare\">" + cart.formatPrice(p.compareAtPrice) + "</span>" : "") +
+            "</span>" +
+          "</div>" +
+        "</a>";
+      var addBtn = document.createElement("button");
+      addBtn.type = "button";
+      addBtn.className = "upsell-card__add";
+      addBtn.textContent = "Aggiungi al carrello";
+      addBtn.addEventListener("click", function () {
+        cart.addToCart({
+          id: p.handle,
+          handle: p.handle,
+          title: p.title,
+          price: p.price,
+          image: p.image,
+          url: p.url,
+          qty: 1
+        });
+        render();
+      });
+      card.appendChild(addBtn);
+      upsellRoot.appendChild(card);
+    });
+  }
+
+  function escapeHtml(str) {
+    return String(str)
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;");
+  }
+
+  render();
+})();
+</script>
+</body>
+</html>
