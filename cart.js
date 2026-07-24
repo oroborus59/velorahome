@@ -163,6 +163,82 @@
     return false;
   }
 
+  /* Cambio immagine al click su una variante (colore/modello) nella pagina prodotto.
+     Usa i dati già presenti nel JSON-LD della pagina (hasVariant), niente rete. */
+  function getVariantImageMap() {
+    var map = {};
+    var scripts = document.querySelectorAll('script[type="application/ld+json"]');
+    for (var i = 0; i < scripts.length; i++) {
+      try {
+        var data = JSON.parse(scripts[i].textContent);
+        if (data && data.hasVariant) {
+          for (var j = 0; j < data.hasVariant.length; j++) {
+            var v = data.hasVariant[j];
+            var m = v["@id"] && v["@id"].match(/variant=(\d+)/);
+            if (m && v.image) map[m[1]] = v.image;
+          }
+        }
+      } catch (e) { /* ignora JSON non valido */ }
+    }
+    return map;
+  }
+
+  function toLocalImagePath(absoluteUrl, prefix) {
+    var afterCdn = absoluteUrl.split("/cdn/")[1];
+    if (!afterCdn) return null;
+    return prefix + "cdn/" + afterCdn.replace("?", "@");
+  }
+
+  function swapVariantImages(variantId) {
+    var map = getVariantImageMap();
+    var targetAbsolute = map[variantId];
+    if (!targetAbsolute) return;
+
+    var variantFilenames = [];
+    for (var id in map) {
+      var afterCdn = map[id].split("/cdn/")[1];
+      if (afterCdn) variantFilenames.push(afterCdn.split("?")[0]);
+    }
+
+    var images = document.querySelectorAll('media-gallery img.product-media__image, .sticky-add-to-cart__image-img');
+    images.forEach(function (img) {
+      var src = img.getAttribute("src") || "";
+      var cdnIdx = src.indexOf("cdn/");
+      var prefix = cdnIdx >= 0 ? src.substring(0, cdnIdx) : "";
+
+      var isVariantShot = img.classList.contains("sticky-add-to-cart__image-img");
+      if (!isVariantShot) {
+        for (var k = 0; k < variantFilenames.length; k++) {
+          if (src.indexOf(variantFilenames[k]) !== -1) { isVariantShot = true; break; }
+        }
+      }
+      if (!isVariantShot) return;
+
+      var newPath = toLocalImagePath(targetAbsolute, prefix);
+      if (newPath) {
+        img.setAttribute("src", newPath);
+        img.removeAttribute("srcset");
+      }
+    });
+  }
+
+  function initVariantImageSwap() {
+    var form = document.querySelector(".variant-picker__form");
+    if (!form) return;
+    form.addEventListener("change", function (e) {
+      var target = e.target;
+      if (target && target.type === "radio" && target.hasAttribute("data-variant-id")) {
+        swapVariantImages(target.getAttribute("data-variant-id"));
+      }
+    });
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", initVariantImageSwap);
+  } else {
+    initVariantImageSwap();
+  }
+
   window.VeloraCart = {
     KEY: CART_KEY,
     PRODUCTS: PRODUCTS,
