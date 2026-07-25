@@ -4,6 +4,30 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Il mio carrello – Velora Home</title>
+<!-- TikTok Pixel Code Start -->
+<script>
+  window.tikTokPixelId = "6a5cf4333a2eeb3ecbd7a811";
+  !function (w, d, t) {
+    w.TiktokAnalyticsObject = t;
+    var ttq = w[t] = w[t] || [];
+    ttq.methods = ["page","track","identify","instances","debug","on","off","once","ready","alias","group","enableCookie","disableCookie","holdConsent","revokeConsent","grantConsent"];
+    ttq.setAndDefer = function (t, e) { t[e] = function () { t.push([e].concat(Array.prototype.slice.call(arguments, 0))); }; };
+    for (var i = 0; i < ttq.methods.length; i++) ttq.setAndDefer(ttq, ttq.methods[i]);
+  }(window, document, "ttq");
+  var a = document.createElement("script");
+  a.setAttribute("async", "");
+  a.setAttribute("defer", "");
+  a.setAttribute("src", "https://cdn.utmify.com.br/scripts/pixel/pixel-tiktok.js");
+  document.head.appendChild(a);
+</script>
+<!-- TikTok Pixel Code End -->
+<script
+  src="https://cdn.utmify.com.br/scripts/utms/latest.js"
+  data-utmify-prevent-xcod-sck
+  data-utmify-prevent-subids
+  async
+  defer
+></script>
 <style>
   :root {
     --color-bg: #ffffff;
@@ -327,7 +351,17 @@
     });
 
     document.getElementById("checkout-btn").addEventListener("click", function () {
-      document.getElementById("checkout-note").textContent = "Il checkout sarà disponibile a breve.";
+      var currentItems = cart.getCart();
+      if (currentItems.length === 0) return;
+
+      var checkoutBtn = document.getElementById("checkout-btn");
+      checkoutBtn.disabled = true;
+      document.getElementById("checkout-note").textContent = "Reindirizzamento al pagamento…";
+
+      var items = currentItems.map(function (i) {
+        return { handle: i.handle || i.id, title: i.title, qty: i.qty };
+      });
+      cart.startStripeCheckout(items);
     });
 
     renderUpsell(items);

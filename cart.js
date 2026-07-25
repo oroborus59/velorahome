@@ -65,6 +65,15 @@
     }
   }
 
+  /* Invia un evento al Pixel TikTok (via Utmify), se disponibile. Non blocca mai il resto del sito. */
+  function trackTikTok(eventName, params) {
+    try {
+      if (window.ttq && typeof window.ttq.track === "function") {
+        window.ttq.track(eventName, params);
+      }
+    } catch (e) { /* pixel non disponibile, ignora */ }
+  }
+
   function addToCart(item) {
     var cart = getCart();
     var existing = null;
@@ -80,6 +89,17 @@
       cart.push(item);
     }
     saveCart(cart);
+
+    trackTikTok("AddToCart", {
+      content_id: item.handle || item.id,
+      content_type: "product",
+      content_name: item.title,
+      quantity: item.qty,
+      price: item.price,
+      value: item.price * item.qty,
+      currency: "EUR"
+    });
+
     return cart;
   }
 
@@ -138,6 +158,52 @@
     });
 
     window.location.href = btn.getAttribute("data-cart-url") || "../cart.html";
+  }
+
+  /* Avvia il checkout Stripe (redirect ospitato) per una lista di articoli.
+     items: [{ handle, title, qty }] — il prezzo viene sempre ricalcolato dal server. */
+  function startStripeCheckout(items) {
+    if (!items || items.length === 0) return;
+
+    trackTikTok("InitiateCheckout", {
+      contents: items.map(function (i) {
+        return { content_id: i.handle, content_type: "product", content_name: i.title, quantity: i.qty };
+      }),
+      currency: "EUR"
+    });
+
+    fetch("/api/create-checkout-session", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ items: items })
+    })
+      .then(function (res) { return res.json(); })
+      .then(function (data) {
+        if (data && data.url) {
+          window.location.href = data.url;
+        } else {
+          window.alert("Non è stato possibile avviare il pagamento. Riprova.");
+        }
+      })
+      .catch(function () {
+        window.alert("Non è stato possibile avviare il pagamento. Riprova.");
+      });
+  }
+
+  /* Chiamata dal pulsante "Acquista ora": acquisto diretto di un solo prodotto via Stripe,
+     senza passare dal carrello. */
+  function buyNowStripe(btn) {
+    var form = btn.closest("form");
+    var qtyInput = form ? form.querySelector('input[name="quantity"]') : null;
+    var qty = qtyInput ? (parseInt(qtyInput.value, 10) || 1) : 1;
+
+    var checkedRadio = document.querySelector('.variant-picker__form input[type="radio"]:checked');
+    var variantTitle = checkedRadio ? checkedRadio.value : null;
+
+    var baseId = btn.getAttribute("data-product-id");
+    var title = btn.getAttribute("data-product-title") + (variantTitle ? " - " + variantTitle : "");
+
+    startStripeCheckout([{ handle: baseId, title: title, qty: qty }]);
   }
 
   /* Chiamata dal form di ricerca dell'header: cerca nel catalogo locale (5 prodotti) */
@@ -233,10 +299,31 @@
     });
   }
 
-  if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", initVariantImageSwap);
-  } else {
+  /* Pagina prodotto: invia ViewContent una sola volta al caricamento */
+  function initViewContentTracking() {
+    var btn = document.querySelector(".acquista-ora-button[data-product-id]");
+    if (!btn) return;
+    var price = parseFloat(btn.getAttribute("data-product-price"));
+    trackTikTok("ViewContent", {
+      content_id: btn.getAttribute("data-product-id"),
+      content_type: "product",
+      content_name: btn.getAttribute("data-product-title"),
+      quantity: 1,
+      price: price,
+      value: price,
+      currency: "EUR"
+    });
+  }
+
+  function initPageTracking() {
     initVariantImageSwap();
+    initViewContentTracking();
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", initPageTracking);
+  } else {
+    initPageTracking();
   }
 
   window.VeloraCart = {
@@ -250,6 +337,9 @@
     cartCount: cartCount,
     formatPrice: formatPrice,
     addFromProductPage: addFromProductPage,
-    handleSearchSubmit: handleSearchSubmit
+    handleSearchSubmit: handleSearchSubmit,
+    trackTikTok: trackTikTok,
+    startStripeCheckout: startStripeCheckout,
+    buyNowStripe: buyNowStripe
   };
 })(window);

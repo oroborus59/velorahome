@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Grazie per il tuo ordine – Velora Home</title>
+<!-- TikTok Pixel Code Start -->
+<script>
+  window.tikTokPixelId = "6a5cf4333a2eeb3ecbd7a811";
+  !function (w, d, t) {
+    w.TiktokAnalyticsObject = t;
+    var ttq = w[t] = w[t] || [];
+    ttq.methods = ["page","track","identify","instances","debug","on","off","once","ready","alias","group","enableCookie","disableCookie","holdConsent","revokeConsent","grantConsent"];
+    ttq.setAndDefer = function (t, e) { t[e] = function () { t.push([e].concat(Array.prototype.slice.call(arguments, 0))); }; };
+    for (var i = 0; i < ttq.methods.length; i++) ttq.setAndDefer(ttq, ttq.methods[i]);
+  }(window, document, "ttq");
+  var a = document.createElement("script");
+  a.setAttribute("async", "");
+  a.setAttribute("defer", "");
+  a.setAttribute("src", "https://cdn.utmify.com.br/scripts/pixel/pixel-tiktok.js");
+  document.head.appendChild(a);
+</script>
+<!-- TikTok Pixel Code End -->
+<script
+  src="https://cdn.utmify.com.br/scripts/utms/latest.js"
+  data-utmify-prevent-xcod-sck
+  data-utmify-prevent-subids
+  async
+  defer
+></script>
+<style>
+  :root {
+    --color-bg: #ffffff;
+    --color-fg: #111111;
+    --color-fg-muted: #6f6f6f;
+    --color-primary: #111111;
+    --color-primary-dark: #000000;
+    --color-primary-contrast: #ffffff;
+    --color-tan-light: #f5f5f5;
+    --color-tan: #ececec;
+    --color-border: #e2e2e2;
+    --color-success: #1a7f37;
+    --color-error: #b3261e;
+    --font-body: "Work Sans", "Instrument Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: var(--font-body);
+    color: var(--color-fg);
+    background: var(--color-bg);
+  }
+  a { color: inherit; }
+  header.site-header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 18px 16px;
+    border-bottom: 1px solid var(--color-border);
+    background: var(--color-tan-light);
+  }
+  header.site-header img { height: 32px; width: auto; }
+  main {
+    max-width: 560px;
+    margin: 0 auto;
+    padding: 48px 16px 64px;
+    text-align: center;
+  }
+  .status-icon {
+    width: 56px;
+    height: 56px;
+    margin: 0 auto 20px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.6rem;
+  }
+  .status-icon.success { background: #eaf6ee; color: var(--color-success); }
+  .status-icon.error { background: #fbeceb; color: var(--color-error); }
+  .status-icon.loading { background: var(--color-tan-light); color: var(--color-fg-muted); }
+  h1.page-title {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin: 0 0 10px;
+  }
+  p.subtitle {
+    color: var(--color-fg-muted);
+    font-size: 0.95rem;
+    margin: 0 0 32px;
+  }
+  .order-summary {
+    text-align: left;
+    border: 1px solid var(--color-border);
+    border-radius: 8px;
+    padding: 16px;
+    margin-bottom: 28px;
+  }
+  .order-summary__row {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 8px 0;
+    border-bottom: 1px solid var(--color-border);
+    font-size: 0.9rem;
+  }
+  .order-summary__row:last-child { border-bottom: none; }
+  .order-summary__total {
+    display: flex;
+    justify-content: space-between;
+    padding-top: 12px;
+    margin-top: 4px;
+    border-top: 2px solid var(--color-fg);
+    font-weight: 600;
+  }
+  .continue-shopping {
+    display: inline-block;
+    padding: 12px 28px;
+    background: var(--color-primary);
+    color: var(--color-primary-contrast);
+    text-decoration: none;
+    border-radius: 4px;
+    font-weight: 600;
+    font-size: 0.95rem;
+  }
+  .continue-shopping:hover { background: var(--color-primary-dark); }
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <a href="index.html"><img src="cdn/shop/files/velora_logo.png@height=156&v=1784760651" alt="Velora Home"></a>
+</header>
+
+<main>
+  <div id="status-root">
+    <div class="status-icon loading">…</div>
+    <h1 class="page-title">Verifica del pagamento in corso…</h1>
+    <p class="subtitle">Un attimo, stiamo confermando il tuo ordine.</p>
+  </div>
+</main>
+
+<script src="cart.js"></script>
+<script>
+(function () {
+  var cart = window.VeloraCart;
+
+  function escapeHtml(str) {
+    return String(str)
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;");
+  }
+
+  function renderSuccess(data) {
+    var root = document.getElementById("status-root");
+    var itemsHtml = (data.items || []).map(function (i) {
+      return "<div class=\"order-summary__row\"><span>" + escapeHtml(i.name) + " × " + i.quantity + "</span><span>" + cart.formatPrice(i.amount) + "</span></div>";
+    }).join("");
+
+    root.innerHTML =
+      "<div class=\"status-icon success\">✓</div>" +
+      "<h1 class=\"page-title\">Grazie per il tuo ordine!</h1>" +
+      "<p class=\"subtitle\">Il pagamento è stato confermato. Riceverai una conferma via email.</p>" +
+      "<div class=\"order-summary\">" + itemsHtml +
+        "<div class=\"order-summary__total\"><span>Totale</span><span>" + cart.formatPrice(data.value) + "</span></div>" +
+      "</div>" +
+      "<a class=\"continue-shopping\" href=\"index.html\">Continua lo shopping</a>";
+  }
+
+  function renderError() {
+    var root = document.getElementById("status-root");
+    root.innerHTML =
+      "<div class=\"status-icon error\">!</div>" +
+      "<h1 class=\"page-title\">Non siamo riusciti a confermare il pagamento</h1>" +
+      "<p class=\"subtitle\">Se hai completato il pagamento e il problema persiste, contattaci indicando l'orario dell'acquisto.</p>" +
+      "<a class=\"continue-shopping\" href=\"cart.html\">Torna al carrello</a>";
+  }
+
+  var params = new URLSearchParams(window.location.search);
+  var sessionId = params.get("session_id");
+
+  if (!sessionId) {
+    renderError();
+  } else {
+    fetch("/api/verify-session?session_id=" + encodeURIComponent(sessionId))
+      .then(function (res) { return res.json(); })
+      .then(function (data) {
+        if (data && data.paid) {
+          renderSuccess(data);
+          cart.trackTikTok("CompletePayment", {
+            contents: (data.items || []).map(function (i) {
+              return { content_type: "product", content_name: i.name, quantity: i.quantity, price: i.amount };
+            }),
+            value: data.value,
+            currency: data.currency || "EUR"
+          });
+          cart.saveCart([]);
+        } else {
+          renderError();
+        }
+      })
+      .catch(renderError);
+  }
+})();
+</script>
+</body>
+</html>
