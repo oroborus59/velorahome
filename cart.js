@@ -134,6 +134,30 @@
     return "€" + amount.toFixed(2).replace(".", ",");
   }
 
+  /* Pulsanti +/- di quantità nelle pagine prodotto (stesso meccanismo semplice
+     già usato nel carrello, non dipende dai custom element del tema). */
+  function stepQuantity(btn, delta) {
+    var container = btn.closest(".quantity-selector-wrapper") || btn.parentElement;
+    if (!container) return;
+    var input = container.querySelector('input[name="quantity"]');
+    if (!input) return;
+    var minusBtn = container.querySelector('button[name="minus"]');
+    var plusBtn = container.querySelector('button[name="plus"]');
+
+    var min = parseInt(input.getAttribute("min"), 10) || 1;
+    var current = parseInt(input.value, 10) || min;
+    var next = current + delta;
+    if (next < min) next = min;
+    input.value = next;
+    input.dispatchEvent(new Event("change", { bubbles: true }));
+
+    /* Il vecchio componente del tema può aver disabilitato questi pulsanti
+       all'avvio (es. "-" quando la quantità è al minimo) e non li riabilita
+       mai perché non "vede" i cambi di valore fatti qui: lo gestiamo da soli. */
+    if (minusBtn) minusBtn.disabled = next <= min;
+    if (plusBtn) plusBtn.disabled = false;
+  }
+
   /* Chiamata dal pulsante "Acquista ora" nelle pagine prodotto */
   function addFromProductPage(btn) {
     var form = btn.closest("form");
@@ -340,6 +364,7 @@
     handleSearchSubmit: handleSearchSubmit,
     trackTikTok: trackTikTok,
     startStripeCheckout: startStripeCheckout,
-    buyNowStripe: buyNowStripe
+    buyNowStripe: buyNowStripe,
+    stepQuantity: stepQuantity
   };
 })(window);

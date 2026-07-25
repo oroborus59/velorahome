@@ -3976,7 +3976,7 @@ ref="quantitySelector"
       class="button quantity-minus button-unstyled"
       type="button"
       name="minus"
-      on:click="/decreaseQuantity"
+      onclick="VeloraCart.stepQuantity(this, -1)"
       ref="minusButton"
       
     >
@@ -4006,7 +4006,7 @@ ref="quantitySelector"
       class="button quantity-plus button-unstyled"
       type="button"
       name="plus"
-      on:click="/increaseQuantity"
+      onclick="VeloraCart.stepQuantity(this, 1)"
       ref="plusButton"
       
     >
