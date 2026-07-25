@@ -4,6 +4,7 @@
   "private": true,
   "description": "Velora Home - sito statico con Vercel Serverless Functions per il checkout Stripe",
   "dependencies": {
+    "@vercel/analytics": "^2.0.1",
     "stripe": "^17.4.0"
   }
 }
