@@ -48,6 +48,9 @@ module.exports = async function handler(req, res) {
     const session = await stripe.checkout.sessions.create({
       mode: "payment",
       line_items,
+      shipping_address_collection: {
+        allowed_countries: ["IT"]
+      },
       success_url: origin + "/checkout-success.html?session_id={CHECKOUT_SESSION_ID}",
       cancel_url: origin + "/cart.html"
     });
