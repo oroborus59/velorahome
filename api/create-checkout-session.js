@@ -51,6 +51,22 @@ module.exports = async function handler(req, res) {
       shipping_address_collection: {
         allowed_countries: ["IT"]
       },
+      shipping_options: [
+        {
+          shipping_rate_data: {
+            type: "fixed_amount",
+            fixed_amount: {
+              amount: 0,
+              currency: "eur"
+            },
+            display_name: "Spedizione Gratuita",
+            delivery_estimate: {
+              minimum: { unit: "business_day", value: 2 },
+              maximum: { unit: "business_day", value: 5 }
+            }
+          }
+        }
+      ],
       success_url: origin + "/checkout-success.html?session_id={CHECKOUT_SESSION_ID}",
       cancel_url: origin + "/cart.html"
     });
