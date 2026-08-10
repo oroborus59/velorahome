@@ -36,6 +36,8 @@
       firstScript.parentNode.insertBefore(script, firstScript);
     };
   }(window, document, "ttq");
+  ttq.load(window.tikTokPixelId);
+  ttq.page();
   var a = document.createElement("script");
   a.setAttribute("async", "");
   a.setAttribute("defer", "");
