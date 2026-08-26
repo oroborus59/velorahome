@@ -16,7 +16,7 @@
         title: "Pannello Flessibile di Alta Gamma in Legno – 270x110 cm",
         price: 5.00,
         compareAtPrice: null,
-        image: "cdn/shop/files/N-OAK-LIGHT_8335bf77-ad28-457d-937a-796529edc282.png@v=1767622252&width=352",
+        image: "/cdn/shop/files/N-OAK-LIGHT_8335bf77-ad28-457d-937a-796529edc282.png@v=1767622252&width=352",
         url: "products/pannello-flessibile-di-alta-gamma-in-legno-270x110-cm.html"
       },
       {
@@ -24,7 +24,7 @@
         title: "Pannello Flessibile in Legno – 270x110 cm",
         price: 5.00,
         compareAtPrice: null,
-        image: "cdn/shop/files/NI_1.png@v=1767622252&width=352",
+        image: "/cdn/shop/files/NI_1.png@v=1767622252&width=352",
         url: "products/pannello-flessibile-di-alta-gamma-in-legno-270x110-cm-copia.html"
       },
       {
@@ -32,7 +32,7 @@
         title: "Macchina da Stiro Automatica",
         price: 29.90,
         compareAtPrice: 66.90,
-        image: "cdn/shop/files/4.2.webp@v=1768079447&width=352",
+        image: "/cdn/shop/files/4.2.webp@v=1768079447&width=352",
         url: "products/macchina-da-stiro-automatica.html"
       },
       {
@@ -40,7 +40,7 @@
         title: "Pellicole Decorative per Vetri - 60 x 120 cm",
         price: 5.99,
         compareAtPrice: 24.99,
-        image: "cdn/shop/files/BlueCanglang.webp@v=1782863466&width=352",
+        image: "/cdn/shop/files/BlueCanglang.webp@v=1782863466&width=352",
         url: "products/pellicole-decorative-per-vetri-60-x-120-cm.html"
       },
       {
@@ -48,7 +48,7 @@
         title: "Pannelli in Marmo Flessibile 270 × 110 cm",
         price: 5.00,
         compareAtPrice: null,
-        image: "cdn/shop/files/37-ROTOLO-ADESIVO-MARMO-300X120.jpg@v=1779816926&width=352",
+        image: "/cdn/shop/files/37-ROTOLO-ADESIVO-MARMO-300X120.jpg@v=1779816926&width=352",
         url: "products/rotolo-adesivo-da-parete-effetto-marmo-120x300-cm-impermeabile-e-resistente-allacqua-spessore-2mm-adesione-forte-e-realistica.html"
       }
     ],
@@ -61,7 +61,7 @@
         title: "Premium Flexible Wood Panel – 270x110 cm",
         price: 4.25,
         compareAtPrice: null,
-        image: "cdn/shop/files/N-OAK-LIGHT_8335bf77-ad28-457d-937a-796529edc282.png@v=1767622252&width=352",
+        image: "/cdn/shop/files/N-OAK-LIGHT_8335bf77-ad28-457d-937a-796529edc282.png@v=1767622252&width=352",
         url: "products/premium-flexible-wood-panel-270x110-cm.html"
       },
       {
@@ -69,7 +69,7 @@
         title: "Flexible Wood Panel – 270x110 cm",
         price: 4.25,
         compareAtPrice: null,
-        image: "cdn/shop/files/NI_1.png@v=1767622252&width=352",
+        image: "/cdn/shop/files/NI_1.png@v=1767622252&width=352",
         url: "products/flexible-wood-panel-270x110-cm.html"
       },
       {
@@ -77,7 +77,7 @@
         title: "Automatic Ironing Machine",
         price: 25.42,
         compareAtPrice: 56.87,
-        image: "cdn/shop/files/4.2.webp@v=1768079447&width=352",
+        image: "/cdn/shop/files/4.2.webp@v=1768079447&width=352",
         url: "products/automatic-ironing-machine.html"
       },
       {
@@ -85,7 +85,7 @@
         title: "Decorative Window Films - 60 x 120 cm",
         price: 5.09,
         compareAtPrice: 21.24,
-        image: "cdn/shop/files/BlueCanglang.webp@v=1782863466&width=352",
+        image: "/cdn/shop/files/BlueCanglang.webp@v=1782863466&width=352",
         url: "products/decorative-window-films-60x120-cm.html"
       },
       {
@@ -93,7 +93,7 @@
         title: "Flexible Marble Panels 270 × 110 cm",
         price: 4.25,
         compareAtPrice: null,
-        image: "cdn/shop/files/37-ROTOLO-ADESIVO-MARMO-300X120.jpg@v=1779816926&width=352",
+        image: "/cdn/shop/files/37-ROTOLO-ADESIVO-MARMO-300X120.jpg@v=1779816926&width=352",
         url: "products/marble-effect-wall-sticker-roll-120x300-cm-waterproof.html"
       }
     ]
