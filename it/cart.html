@@ -276,9 +276,9 @@
 </head>
 <body>
 
-<header class="site-header">
-  <a href="index.html"><img src="cdn/shop/files/velora_logo.png@height=156&v=1784760651" alt="Velora Home"></a>
-</header>
+<header class="site-header" style="display:flex;align-items:center;">
+  <a href="index.html"><img src="../cdn/shop/files/velora_logo.png@height=156&v=1784760651" alt="Velora Home"></a>
+<div style="margin-left:auto;"><details class="header-actions__action locale-switcher-dropdown" style="position:relative;display:inline-flex;align-items:center;vertical-align:middle;"><summary style="list-style:none;cursor:pointer;display:flex;align-items:center;gap:4px;font-size:12px;font-weight:700;letter-spacing:.03em;color:var(--color-fg);border:1px solid currentColor;opacity:.85;border-radius:999px;padding:4px 10px;line-height:1;" aria-label="Cambia lingua">IT<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="none" width="10" height="10"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="m5 7.5 5 5 5-5"/></svg></summary><div style="position:absolute;top:calc(100% + 6px);right:0;background:var(--color-background, #fff);border:1px solid rgba(17,17,17,.12);border-radius:8px;box-shadow:0 8px 20px rgba(0,0,0,.12);min-width:72px;overflow:hidden;z-index:60;"><a href="../en/cart.html" style="display:block;padding:8px 14px;font-size:13px;font-weight:600;color:var(--color-fg);text-decoration:none;white-space:nowrap;" onmouseover="this.style.background='rgba(17,17,17,.06)'" onmouseout="this.style.background=''">EN</a></div></details></div></header>
 
 <main>
   <h1 class="page-title">Il mio carrello</h1>
@@ -290,7 +290,7 @@
   </section>
 </main>
 
-<script src="cart.js"></script>
+<script>window.SITE_LOCALE = "it";</script><script src="../cart.js"></script>
 <script>
 (function () {
   var cart = window.VeloraCart;

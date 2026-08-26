@@ -1,5 +1,22 @@
 const Stripe = require("stripe");
-const { PRODUCTS } = require("./_catalog");
+const { PRODUCTS_BY_LOCALE } = require("./_catalog");
+
+const LOCALE_CONFIG = {
+  it: {
+    currency: "eur",
+    allowedCountries: ["IT"],
+    shippingLabel: "Spedizione Gratuita",
+    cartPath: "/it/cart.html",
+    successPath: "/it/checkout-success.html"
+  },
+  en: {
+    currency: "gbp",
+    allowedCountries: ["GB"],
+    shippingLabel: "Free Shipping",
+    cartPath: "/en/cart.html",
+    successPath: "/en/checkout-success.html"
+  }
+};
 
 module.exports = async function handler(req, res) {
   if (req.method !== "POST") {
@@ -16,6 +33,9 @@ module.exports = async function handler(req, res) {
   try {
     const body = typeof req.body === "string" ? JSON.parse(req.body) : req.body;
     const items = Array.isArray(body && body.items) ? body.items : [];
+    const locale = (body && body.locale === "en") ? "en" : "it";
+    const config = LOCALE_CONFIG[locale];
+    const PRODUCTS = PRODUCTS_BY_LOCALE[locale];
 
     if (items.length === 0) {
       res.status(400).json({ error: "Nessun articolo ricevuto" });
@@ -32,7 +52,7 @@ module.exports = async function handler(req, res) {
       const qty = Math.max(1, Math.min(99, parseInt(item.qty, 10) || 1));
       line_items.push({
         price_data: {
-          currency: "eur",
+          currency: config.currency,
           product_data: {
             name: (item.title && String(item.title).slice(0, 250)) || catalogEntry.title
           },
@@ -49,7 +69,7 @@ module.exports = async function handler(req, res) {
       mode: "payment",
       line_items,
       shipping_address_collection: {
-        allowed_countries: ["IT"]
+        allowed_countries: config.allowedCountries
       },
       shipping_options: [
         {
@@ -57,9 +77,9 @@ module.exports = async function handler(req, res) {
             type: "fixed_amount",
             fixed_amount: {
               amount: 0,
-              currency: "eur"
+              currency: config.currency
             },
-            display_name: "Spedizione Gratuita",
+            display_name: config.shippingLabel,
             delivery_estimate: {
               minimum: { unit: "business_day", value: 2 },
               maximum: { unit: "business_day", value: 5 }
@@ -67,8 +87,8 @@ module.exports = async function handler(req, res) {
           }
         }
       ],
-      success_url: origin + "/checkout-success.html?session_id={CHECKOUT_SESSION_ID}",
-      cancel_url: origin + "/cart.html"
+      success_url: origin + config.successPath + "?session_id={CHECKOUT_SESSION_ID}",
+      cancel_url: origin + config.cartPath
     });
 
     res.status(200).json({ url: session.url });

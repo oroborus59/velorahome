@@ -1,51 +1,105 @@
-/* Velora Home - carrello locale (localStorage), nessun backend richiesto */
+/* Velora Home - carrello locale (localStorage), nessun backend richiesto per il carrello.
+   Multi-lingua: ogni pagina imposta window.SITE_LOCALE ("it" o "en") prima di questo script. */
 (function (window) {
   "use strict";
 
-  var CART_KEY = "velora_cart";
+  var LOCALE = (window.SITE_LOCALE === "en") ? "en" : "it";
+  var CURRENCY_BY_LOCALE = { it: "EUR", en: "GBP" };
+  var CURRENCY = CURRENCY_BY_LOCALE[LOCALE];
 
-  var PRODUCTS = [
-    {
-      handle: "pannello-flessibile-di-alta-gamma-in-legno-270x110-cm",
-      title: "Pannello Flessibile di Alta Gamma in Legno – 270x110 cm",
-      price: 5.00,
-      compareAtPrice: null,
-      image: "cdn/shop/files/N-OAK-LIGHT_8335bf77-ad28-457d-937a-796529edc282.png@v=1767622252&width=352",
-      url: "products/pannello-flessibile-di-alta-gamma-in-legno-270x110-cm.html"
-    },
-    {
-      handle: "pannello-flessibile-di-alta-gamma-in-legno-270x110-cm-copia",
-      title: "Pannello Flessibile in Legno – 270x110 cm",
-      price: 5.00,
-      compareAtPrice: null,
-      image: "cdn/shop/files/NI_1.png@v=1767622252&width=352",
-      url: "products/pannello-flessibile-di-alta-gamma-in-legno-270x110-cm-copia.html"
-    },
-    {
-      handle: "macchina-da-stiro-automatica",
-      title: "Macchina da Stiro Automatica",
-      price: 29.90,
-      compareAtPrice: 66.90,
-      image: "cdn/shop/files/4.2.webp@v=1768079447&width=352",
-      url: "products/macchina-da-stiro-automatica.html"
-    },
-    {
-      handle: "pellicole-decorative-per-vetri-60-x-120-cm",
-      title: "Pellicole Decorative per Vetri - 60 x 120 cm",
-      price: 5.99,
-      compareAtPrice: 24.99,
-      image: "cdn/shop/files/BlueCanglang.webp@v=1782863466&width=352",
-      url: "products/pellicole-decorative-per-vetri-60-x-120-cm.html"
-    },
-    {
-      handle: "rotolo-adesivo-da-parete-effetto-marmo-120x300-cm-impermeabile-e-resistente-allacqua-spessore-2mm-adesione-forte-e-realistica",
-      title: "Pannelli in Marmo Flessibile 270 × 110 cm",
-      price: 5.00,
-      compareAtPrice: null,
-      image: "cdn/shop/files/37-ROTOLO-ADESIVO-MARMO-300X120.jpg@v=1779816926&width=352",
-      url: "products/rotolo-adesivo-da-parete-effetto-marmo-120x300-cm-impermeabile-e-resistente-allacqua-spessore-2mm-adesione-forte-e-realistica.html"
-    }
-  ];
+  var CART_KEY = "velora_cart_" + LOCALE;
+
+  var PRODUCTS_BY_LOCALE = {
+    it: [
+      {
+        handle: "pannello-flessibile-di-alta-gamma-in-legno-270x110-cm",
+        title: "Pannello Flessibile di Alta Gamma in Legno – 270x110 cm",
+        price: 5.00,
+        compareAtPrice: null,
+        image: "cdn/shop/files/N-OAK-LIGHT_8335bf77-ad28-457d-937a-796529edc282.png@v=1767622252&width=352",
+        url: "products/pannello-flessibile-di-alta-gamma-in-legno-270x110-cm.html"
+      },
+      {
+        handle: "pannello-flessibile-di-alta-gamma-in-legno-270x110-cm-copia",
+        title: "Pannello Flessibile in Legno – 270x110 cm",
+        price: 5.00,
+        compareAtPrice: null,
+        image: "cdn/shop/files/NI_1.png@v=1767622252&width=352",
+        url: "products/pannello-flessibile-di-alta-gamma-in-legno-270x110-cm-copia.html"
+      },
+      {
+        handle: "macchina-da-stiro-automatica",
+        title: "Macchina da Stiro Automatica",
+        price: 29.90,
+        compareAtPrice: 66.90,
+        image: "cdn/shop/files/4.2.webp@v=1768079447&width=352",
+        url: "products/macchina-da-stiro-automatica.html"
+      },
+      {
+        handle: "pellicole-decorative-per-vetri-60-x-120-cm",
+        title: "Pellicole Decorative per Vetri - 60 x 120 cm",
+        price: 5.99,
+        compareAtPrice: 24.99,
+        image: "cdn/shop/files/BlueCanglang.webp@v=1782863466&width=352",
+        url: "products/pellicole-decorative-per-vetri-60-x-120-cm.html"
+      },
+      {
+        handle: "rotolo-adesivo-da-parete-effetto-marmo-120x300-cm-impermeabile-e-resistente-allacqua-spessore-2mm-adesione-forte-e-realistica",
+        title: "Pannelli in Marmo Flessibile 270 × 110 cm",
+        price: 5.00,
+        compareAtPrice: null,
+        image: "cdn/shop/files/37-ROTOLO-ADESIVO-MARMO-300X120.jpg@v=1779816926&width=352",
+        url: "products/rotolo-adesivo-da-parete-effetto-marmo-120x300-cm-impermeabile-e-resistente-allacqua-spessore-2mm-adesione-forte-e-realistica.html"
+      }
+    ],
+    /* Prezzi in GBP: conversione approssimativa (tasso 0.85), da rivedere.
+       Titoli ancora in italiano di proposito - solo la struttura/valuta/URL
+       cambiano in questa fase, i testi si traducono in un secondo momento. */
+    en: [
+      {
+        handle: "premium-flexible-wood-panel-270x110-cm",
+        title: "Premium Flexible Wood Panel – 270x110 cm",
+        price: 4.25,
+        compareAtPrice: null,
+        image: "cdn/shop/files/N-OAK-LIGHT_8335bf77-ad28-457d-937a-796529edc282.png@v=1767622252&width=352",
+        url: "products/premium-flexible-wood-panel-270x110-cm.html"
+      },
+      {
+        handle: "flexible-wood-panel-270x110-cm",
+        title: "Flexible Wood Panel – 270x110 cm",
+        price: 4.25,
+        compareAtPrice: null,
+        image: "cdn/shop/files/NI_1.png@v=1767622252&width=352",
+        url: "products/flexible-wood-panel-270x110-cm.html"
+      },
+      {
+        handle: "automatic-ironing-machine",
+        title: "Automatic Ironing Machine",
+        price: 25.42,
+        compareAtPrice: 56.87,
+        image: "cdn/shop/files/4.2.webp@v=1768079447&width=352",
+        url: "products/automatic-ironing-machine.html"
+      },
+      {
+        handle: "decorative-window-films-60x120-cm",
+        title: "Decorative Window Films - 60 x 120 cm",
+        price: 5.09,
+        compareAtPrice: 21.24,
+        image: "cdn/shop/files/BlueCanglang.webp@v=1782863466&width=352",
+        url: "products/decorative-window-films-60x120-cm.html"
+      },
+      {
+        handle: "marble-effect-wall-sticker-roll-120x300-cm-waterproof",
+        title: "Flexible Marble Panels 270 × 110 cm",
+        price: 4.25,
+        compareAtPrice: null,
+        image: "cdn/shop/files/37-ROTOLO-ADESIVO-MARMO-300X120.jpg@v=1779816926&width=352",
+        url: "products/marble-effect-wall-sticker-roll-120x300-cm-waterproof.html"
+      }
+    ]
+  };
+
+  var PRODUCTS = PRODUCTS_BY_LOCALE[LOCALE];
 
   function getCart() {
     try {
@@ -97,7 +151,7 @@
       quantity: item.qty,
       price: item.price,
       value: item.price * item.qty,
-      currency: "EUR"
+      currency: CURRENCY
     });
 
     return cart;
@@ -131,6 +185,9 @@
   }
 
   function formatPrice(amount) {
+    if (LOCALE === "en") {
+      return "£" + amount.toFixed(2);
+    }
     return "€" + amount.toFixed(2).replace(".", ",");
   }
 
@@ -158,7 +215,7 @@
     if (plusBtn) plusBtn.disabled = false;
   }
 
-  /* Chiamata dal pulsante "Acquista ora" nelle pagine prodotto */
+  /* Chiamata dal pulsante "Acquista ora" / "Aggiungi al carrello" nelle pagine prodotto */
   function addFromProductPage(btn) {
     var form = btn.closest("form");
     var qtyInput = form ? form.querySelector('input[name="quantity"]') : null;
@@ -185,7 +242,8 @@
   }
 
   /* Avvia il checkout Stripe (redirect ospitato) per una lista di articoli.
-     items: [{ handle, title, qty }] — il prezzo viene sempre ricalcolato dal server. */
+     items: [{ handle, title, qty }] — il prezzo viene sempre ricalcolato dal server,
+     in base alla valuta/lingua corrente. */
   function startStripeCheckout(items) {
     if (!items || items.length === 0) return;
 
@@ -193,24 +251,24 @@
       contents: items.map(function (i) {
         return { content_id: i.handle, content_type: "product", content_name: i.title, quantity: i.qty };
       }),
-      currency: "EUR"
+      currency: CURRENCY
     });
 
     fetch("/api/create-checkout-session", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ items: items })
+      body: JSON.stringify({ items: items, locale: LOCALE })
     })
       .then(function (res) { return res.json(); })
       .then(function (data) {
         if (data && data.url) {
           window.location.href = data.url;
         } else {
-          window.alert("Non è stato possibile avviare il pagamento. Riprova.");
+          window.alert(LOCALE === "en" ? "Unable to start payment. Please try again." : "Non è stato possibile avviare il pagamento. Riprova.");
         }
       })
       .catch(function () {
-        window.alert("Non è stato possibile avviare il pagamento. Riprova.");
+        window.alert(LOCALE === "en" ? "Unable to start payment. Please try again." : "Non è stato possibile avviare il pagamento. Riprova.");
       });
   }
 
@@ -335,13 +393,26 @@
       quantity: 1,
       price: price,
       value: price,
-      currency: "EUR"
+      currency: CURRENCY
+    });
+  }
+
+  /* Chiude il menu a tendina del selettore di lingua quando si clicca fuori */
+  function initLocaleSwitcherDropdown() {
+    document.addEventListener("click", function (e) {
+      var openDropdowns = document.querySelectorAll("details.locale-switcher-dropdown[open]");
+      for (var i = 0; i < openDropdowns.length; i++) {
+        if (!openDropdowns[i].contains(e.target)) {
+          openDropdowns[i].removeAttribute("open");
+        }
+      }
     });
   }
 
   function initPageTracking() {
     initVariantImageSwap();
     initViewContentTracking();
+    initLocaleSwitcherDropdown();
   }
 
   if (document.readyState === "loading") {
@@ -352,6 +423,8 @@
 
   window.VeloraCart = {
     KEY: CART_KEY,
+    LOCALE: LOCALE,
+    CURRENCY: CURRENCY,
     PRODUCTS: PRODUCTS,
     getCart: getCart,
     saveCart: saveCart,
