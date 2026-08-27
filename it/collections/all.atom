@@ -173,66 +173,6 @@
     </s:variant>
   </entry>
   <entry>
-    <id>https://velora-home.site/products/15774045077829</id>
-    <published>2026-03-27T19:57:57+01:00</published>
-    <updated>2026-03-27T19:57:57+01:00</updated>
-    <link rel="alternate" type="text/html" href="https://velora-home.site/products/pannello-flessibile-di-alta-gamma-in-legno-270x110-cm-copia"/>
-    <title>Pannello Flessibile in Legno – 270x110 cm</title>
-    <s:type></s:type>
-    <s:vendor>Il mio negozio</s:vendor>
-    <summary type="html">
-      <![CDATA[<table border="0">
-  <tr>
-    <td width="200"><img width="200" src="https://cdn.shopify.com/s/files/1/1017/2265/2997/files/NI_1.png?v=1767622252"></td>
-    <td valign="bottom">
-      <p>
-
-        <strong>Produttore: </strong>Il mio negozio<br>
-        <strong>Tipo: </strong><br>
-        <strong>Prezzo: </strong>
-            5.00
-      </p>
-    </td>
-  </tr>
-  <tr>
-    <td colspan="2"><h4 data-start="142" data-end="185" style="text-align: center;"><strong>Materiali sostenibili e qualità premium</strong></h4>
-<p data-start="187" data-end="497" style="text-align: center;">I nostri pannelli sono realizzati con materiali ecologici di alta qualità.<br data-start="261" data-end="264">Lo strato di feltro acustico, prodotto con plastica riciclata, contribuisce alla riduzione dell’impatto ambientale, mentre le doghe in MDF resistente garantiscono solidità, durata nel tempo e una raffinata finitura in impiallacciato.</p>
-<h4 data-start="499" data-end="537" style="text-align: center;"><strong>Design che valorizza ogni ambiente</strong></h4>
-<p data-start="539" data-end="720" style="text-align: center;">Una soluzione che unisce <strong data-start="564" data-end="582">design moderno</strong>, comfort acustico ed eleganza, ideale per arricchire spazi contemporanei e creare ambienti accoglienti, ordinati e visivamente raffinati.</p></td>
-  </tr>
-</table>
-]]>
-    </summary>
-    <s:variant>
-      <id>https://velora-home.site/products/15774045077829</id>
-      <title>Rovere Chiaro</title>
-      <s:price currency="EUR">5.00</s:price>
-      <s:sku/>
-      <s:grams>0</s:grams>
-    </s:variant>
-    <s:variant>
-      <id>https://velora-home.site/products/15774045077829</id>
-      <title>Rovere Nero</title>
-      <s:price currency="EUR">5.00</s:price>
-      <s:sku/>
-      <s:grams>0</s:grams>
-    </s:variant>
-    <s:variant>
-      <id>https://velora-home.site/products/15774045077829</id>
-      <title>Rovere Grigio</title>
-      <s:price currency="EUR">5.00</s:price>
-      <s:sku/>
-      <s:grams>0</s:grams>
-    </s:variant>
-    <s:variant>
-      <id>https://velora-home.site/products/15774045077829</id>
-      <title>Rovere Fumé</title>
-      <s:price currency="EUR">5.00</s:price>
-      <s:sku/>
-      <s:grams>0</s:grams>
-    </s:variant>
-  </entry>
-  <entry>
     <id>https://velora-home.site/products/15622825869637</id>
     <published>2026-01-10T22:28:20+01:00</published>
     <updated>2026-01-10T22:28:20+01:00</updated>

@@ -8,10 +8,6 @@ const PRODUCTS_BY_LOCALE = {
       title: "Pannello Flessibile di Alta Gamma in Legno – 270x110 cm",
       price: 5.00
     },
-    "pannello-flessibile-di-alta-gamma-in-legno-270x110-cm-copia": {
-      title: "Pannello Flessibile in Legno – 270x110 cm",
-      price: 5.00
-    },
     "macchina-da-stiro-automatica": {
       title: "Macchina da Stiro Automatica",
       price: 29.90
@@ -27,23 +23,19 @@ const PRODUCTS_BY_LOCALE = {
   },
   en: {
     "premium-flexible-wood-panel-270x110-cm": {
-      title: "Pannello Flessibile di Alta Gamma in Legno – 270x110 cm",
-      price: 4.25
-    },
-    "flexible-wood-panel-270x110-cm": {
-      title: "Pannello Flessibile in Legno – 270x110 cm",
-      price: 4.25
+      title: "Premium Flexible Wood Panel – 270x110 cm",
+      price: 5.00
     },
     "automatic-ironing-machine": {
-      title: "Macchina da Stiro Automatica",
+      title: "Automatic Ironing Machine",
       price: 25.42
     },
     "decorative-window-films-60x120-cm": {
-      title: "Pellicole Decorative per Vetri - 60 x 120 cm",
+      title: "Decorative Window Films - 60 x 120 cm",
       price: 5.09
     },
     "marble-effect-wall-sticker-roll-120x300-cm-waterproof": {
-      title: "Pannelli in Marmo Flessibile 270 × 110 cm",
+      title: "Flexible Marble Panels 270 × 110 cm",
       price: 4.25
     }
   }

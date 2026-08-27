@@ -20,14 +20,6 @@
         url: "products/pannello-flessibile-di-alta-gamma-in-legno-270x110-cm.html"
       },
       {
-        handle: "pannello-flessibile-di-alta-gamma-in-legno-270x110-cm-copia",
-        title: "Pannello Flessibile in Legno – 270x110 cm",
-        price: 5.00,
-        compareAtPrice: null,
-        image: "/cdn/shop/files/NI_1.png@v=1767622252&width=352",
-        url: "products/pannello-flessibile-di-alta-gamma-in-legno-270x110-cm-copia.html"
-      },
-      {
         handle: "macchina-da-stiro-automatica",
         title: "Macchina da Stiro Automatica",
         price: 29.90,
@@ -52,25 +44,14 @@
         url: "products/rotolo-adesivo-da-parete-effetto-marmo-120x300-cm-impermeabile-e-resistente-allacqua-spessore-2mm-adesione-forte-e-realistica.html"
       }
     ],
-    /* Prezzi in GBP: conversione approssimativa (tasso 0.85), da rivedere.
-       Titoli ancora in italiano di proposito - solo la struttura/valuta/URL
-       cambiano in questa fase, i testi si traducono in un secondo momento. */
     en: [
       {
         handle: "premium-flexible-wood-panel-270x110-cm",
         title: "Premium Flexible Wood Panel – 270x110 cm",
-        price: 4.25,
+        price: 5.00,
         compareAtPrice: null,
         image: "/cdn/shop/files/N-OAK-LIGHT_8335bf77-ad28-457d-937a-796529edc282.png@v=1767622252&width=352",
         url: "products/premium-flexible-wood-panel-270x110-cm.html"
-      },
-      {
-        handle: "flexible-wood-panel-270x110-cm",
-        title: "Flexible Wood Panel – 270x110 cm",
-        price: 4.25,
-        compareAtPrice: null,
-        image: "/cdn/shop/files/NI_1.png@v=1767622252&width=352",
-        url: "products/flexible-wood-panel-270x110-cm.html"
       },
       {
         handle: "automatic-ironing-machine",
