@@ -16,7 +16,7 @@
         title: "Pannello Flessibile di Alta Gamma in Legno – 270x110 cm",
         price: 5.00,
         compareAtPrice: null,
-        image: "/cdn/shop/files/N-OAK-LIGHT_8335bf77-ad28-457d-937a-796529edc282.png@v=1767622252&width=352",
+        image: "/cdn/shop/files/N-OAK-LIGHT_8335bf77-ad28-457d-937a-796529edc282.webp@v=1767622252&width=352",
         url: "products/pannello-flessibile-di-alta-gamma-in-legno-270x110-cm.html"
       },
       {
@@ -50,7 +50,7 @@
         title: "Premium Flexible Wood Panel – 270x110 cm",
         price: 5.00,
         compareAtPrice: null,
-        image: "/cdn/shop/files/N-OAK-LIGHT_8335bf77-ad28-457d-937a-796529edc282.png@v=1767622252&width=352",
+        image: "/cdn/shop/files/N-OAK-LIGHT_8335bf77-ad28-457d-937a-796529edc282.webp@v=1767622252&width=352",
         url: "products/premium-flexible-wood-panel-270x110-cm.html"
       },
       {
