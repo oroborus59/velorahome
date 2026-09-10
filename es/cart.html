@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="it">
+<html lang="es">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Il mio carrello – Velora Home</title>
+<title>Mi carrito – Velora Home</title>
 <!-- TikTok Pixel Code Start -->
 <script>
   window.tikTokPixelId = "D9T0IG3C77UCQMCB3Q8G";
@@ -278,19 +278,19 @@
 
 <header class="site-header" style="display:flex;align-items:center;">
   <a href="index.html"><img src="../cdn/shop/files/velora_logo.webp@height=156&v=1784760651" alt="Velora Home"></a>
-<div style="margin-left:auto;"><details class="header-actions__action locale-switcher-dropdown" style="position:relative;display:inline-flex;align-items:center;vertical-align:middle;"><summary style="list-style:none;cursor:pointer;display:flex;align-items:center;gap:4px;font-size:12px;font-weight:700;letter-spacing:.03em;color:var(--color-fg);border:1px solid currentColor;opacity:.85;border-radius:999px;padding:4px 10px;line-height:1;" aria-label="Cambia lingua">IT<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="none" width="10" height="10"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="m5 7.5 5 5 5-5"/></svg></summary><div style="position:absolute;top:calc(100% + 6px);right:0;background:var(--color-background, #fff);border:1px solid rgba(17,17,17,.12);border-radius:8px;box-shadow:0 8px 20px rgba(0,0,0,.12);min-width:72px;overflow:hidden;z-index:60;"><a href="../en/cart.html" style="display:block;padding:8px 14px;font-size:13px;font-weight:600;color:var(--color-fg);text-decoration:none;white-space:nowrap;" onmouseover="this.style.background='rgba(17,17,17,.06)'" onmouseout="this.style.background=''">EN</a><a href="../es/cart.html" style="display:block;padding:8px 14px;font-size:13px;font-weight:600;color:var(--color-fg);text-decoration:none;white-space:nowrap;" onmouseover="this.style.background='rgba(17,17,17,.06)'" onmouseout="this.style.background=''">ES</a></div></details></div></header>
+<div style="margin-left:auto;"><details class="header-actions__action locale-switcher-dropdown" style="position:relative;display:inline-flex;align-items:center;vertical-align:middle;"><summary style="list-style:none;cursor:pointer;display:flex;align-items:center;gap:4px;font-size:12px;font-weight:700;letter-spacing:.03em;color:var(--color-fg);border:1px solid currentColor;opacity:.85;border-radius:999px;padding:4px 10px;line-height:1;" aria-label="Cambiar idioma">ES<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="none" width="10" height="10"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="m5 7.5 5 5 5-5"/></svg></summary><div style="position:absolute;top:calc(100% + 6px);right:0;background:var(--color-background, #fff);border:1px solid rgba(17,17,17,.12);border-radius:8px;box-shadow:0 8px 20px rgba(0,0,0,.12);min-width:72px;overflow:hidden;z-index:60;"><a href="../it/cart.html" style="display:block;padding:8px 14px;font-size:13px;font-weight:600;color:var(--color-fg);text-decoration:none;white-space:nowrap;" onmouseover="this.style.background='rgba(17,17,17,.06)'" onmouseout="this.style.background=''">IT</a><a href="../en/cart.html" style="display:block;padding:8px 14px;font-size:13px;font-weight:600;color:var(--color-fg);text-decoration:none;white-space:nowrap;" onmouseover="this.style.background='rgba(17,17,17,.06)'" onmouseout="this.style.background=''">EN</a></div></details></div></header>
 
 <main>
-  <h1 class="page-title">Il mio carrello</h1>
+  <h1 class="page-title">Mi carrito</h1>
   <div id="cart-root"></div>
 
   <section class="upsell">
-    <h2>Potresti anche apprezzare</h2>
+    <h2>También te puede gustar</h2>
     <div class="upsell-grid" id="upsell-root"></div>
   </section>
 </main>
 
-<script>window.SITE_LOCALE = "it";</script><script src="../cart.js"></script>
+<script>window.SITE_LOCALE = "es";</script><script src="../cart.js"></script>
 <script>
 (function () {
   var cart = window.VeloraCart;
@@ -303,7 +303,7 @@
     if (items.length === 0) {
       var empty = document.createElement("div");
       empty.className = "cart-empty";
-      empty.innerHTML = "<p>Il tuo carrello è vuoto.</p><a href=\"index.html\">Continua lo shopping</a>";
+      empty.innerHTML = "<p>Tu carrito está vacío.</p><a href=\"index.html\">Seguir comprando</a>";
       root.appendChild(empty);
       renderUpsell(items);
       return;
@@ -324,14 +324,14 @@
           "<p class=\"cart-item__title\">" + escapeHtml(item.title) + "</p>" +
           "<p class=\"cart-item__price\">" + cart.formatPrice(item.price) + " cad.</p>" +
           "<div class=\"qty-stepper\" data-id=\"" + escapeHtml(item.id) + "\">" +
-            "<button type=\"button\" class=\"qty-minus\" aria-label=\"Diminuisci quantità\">−</button>" +
+            "<button type=\"button\" class=\"qty-minus\" aria-label=\"Disminuir cantidad\">−</button>" +
             "<span>" + item.qty + "</span>" +
-            "<button type=\"button\" class=\"qty-plus\" aria-label=\"Aumenta quantità\">+</button>" +
+            "<button type=\"button\" class=\"qty-plus\" aria-label=\"Aumentar cantidad\">+</button>" +
           "</div>" +
         "</div>" +
         "<div class=\"cart-item__side\">" +
           "<span class=\"cart-item__line-total\">" + cart.formatPrice(item.price * item.qty) + "</span>" +
-          "<button type=\"button\" class=\"remove-btn\" data-id=\"" + escapeHtml(item.id) + "\">Rimuovi</button>" +
+          "<button type=\"button\" class=\"remove-btn\" data-id=\"" + escapeHtml(item.id) + "\">Eliminar</button>" +
         "</div>";
       list.appendChild(row);
     });
@@ -341,16 +341,16 @@
     var summary = document.createElement("div");
     summary.className = "cart-summary";
     summary.innerHTML =
-      "<div class=\"cart-summary__row\"><span>Subtotale</span><span>" + cart.formatPrice(subtotal) + "</span></div>" +
-      "<p class=\"cart-summary__note\">Spedizione e tasse calcolate al checkout.</p>" +
-      "<button type=\"button\" class=\"checkout-btn\" id=\"checkout-btn\">Vai al Checkout</button>" +
+      "<div class=\"cart-summary__row\"><span>Subtotal</span><span>" + cart.formatPrice(subtotal) + "</span></div>" +
+      "<p class=\"cart-summary__note\">Envío e impuestos calculados en el pago.</p>" +
+      "<button type=\"button\" class=\"checkout-btn\" id=\"checkout-btn\">Ir a pagar</button>" +
       "<p class=\"checkout-note\" id=\"checkout-note\"></p>";
     root.appendChild(summary);
 
     var continueLink = document.createElement("a");
     continueLink.className = "continue-shopping";
     continueLink.href = "index.html";
-    continueLink.textContent = "← Continua lo shopping";
+    continueLink.textContent = "← Seguir comprando";
     root.appendChild(continueLink);
 
     root.querySelectorAll(".qty-minus").forEach(function (btn) {
@@ -380,7 +380,7 @@
 
       var checkoutBtn = document.getElementById("checkout-btn");
       checkoutBtn.disabled = true;
-      document.getElementById("checkout-note").textContent = "Reindirizzamento al pagamento…";
+      document.getElementById("checkout-note").textContent = "Redirigiendo al pago…";
 
       var items = currentItems.map(function (i) {
         return { handle: i.handle || i.id, title: i.title, qty: i.qty };
@@ -417,7 +417,7 @@
       var addBtn = document.createElement("button");
       addBtn.type = "button";
       addBtn.className = "upsell-card__add";
-      addBtn.textContent = "Aggiungi al carrello";
+      addBtn.textContent = "Añadir al carrito";
       addBtn.addEventListener("click", function () {
         cart.addToCart({
           id: p.handle,

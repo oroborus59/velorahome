@@ -1,15 +1,11 @@
 const Stripe = require("stripe");
 const { sendPaidOrderToUtmify } = require("./_utmify");
+const { LOCALE_CONFIG, resolveLocale } = require("./_locales");
 
 module.exports = async function handler(req, res) {
   if (req.method !== "GET") {
     res.setHeader("Allow", "GET");
     res.status(405).json({ error: "Method not allowed" });
-    return;
-  }
-
-  if (!process.env.STRIPE_SECRET_KEY) {
-    res.status(500).json({ error: "STRIPE_SECRET_KEY non configurata" });
     return;
   }
 
@@ -19,8 +15,16 @@ module.exports = async function handler(req, res) {
     return;
   }
 
+  const locale = resolveLocale(req.query && req.query.locale);
+  const config = LOCALE_CONFIG[locale];
+  const stripeSecretKey = process.env[config.stripeKeyEnv];
+  if (!stripeSecretKey) {
+    res.status(500).json({ error: config.stripeKeyEnv + " non configurata" });
+    return;
+  }
+
   try {
-    const stripe = Stripe(process.env.STRIPE_SECRET_KEY);
+    const stripe = Stripe(stripeSecretKey);
     const session = await stripe.checkout.sessions.retrieve(sessionId, {
       expand: ["line_items", "payment_intent.latest_charge.balance_transaction"]
     });

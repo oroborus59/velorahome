@@ -1,10 +1,11 @@
 /* Velora Home - carrello locale (localStorage), nessun backend richiesto per il carrello.
-   Multi-lingua: ogni pagina imposta window.SITE_LOCALE ("it" o "en") prima di questo script. */
+   Multi-lingua: ogni pagina imposta window.SITE_LOCALE ("it", "en" o "es") prima di questo script. */
 (function (window) {
   "use strict";
 
-  var LOCALE = (window.SITE_LOCALE === "en") ? "en" : "it";
-  var CURRENCY_BY_LOCALE = { it: "EUR", en: "GBP" };
+  var VALID_LOCALES = { it: true, en: true, es: true };
+  var LOCALE = VALID_LOCALES[window.SITE_LOCALE] ? window.SITE_LOCALE : "it";
+  var CURRENCY_BY_LOCALE = { it: "EUR", en: "GBP", es: "EUR" };
   var CURRENCY = CURRENCY_BY_LOCALE[LOCALE];
 
   var CART_KEY = "velora_cart_" + LOCALE;
@@ -76,6 +77,40 @@
         compareAtPrice: null,
         image: "/cdn/shop/files/37-ROTOLO-ADESIVO-MARMO-300X120.jpg@v=1779816926&width=352",
         url: "products/marble-effect-wall-sticker-roll-120x300-cm-waterproof.html"
+      }
+    ],
+    es: [
+      {
+        handle: "panel-de-madera-flexible-premium-270x110-cm",
+        title: "Panel de Madera Flexible Premium – 270x110 cm",
+        price: 5.00,
+        compareAtPrice: null,
+        image: "/cdn/shop/files/N-OAK-LIGHT_8335bf77-ad28-457d-937a-796529edc282.webp@v=1767622252&width=352",
+        url: "products/panel-de-madera-flexible-premium-270x110-cm.html"
+      },
+      {
+        handle: "maquina-de-planchar-automatica",
+        title: "Máquina de Planchar Automática",
+        price: 29.90,
+        compareAtPrice: 66.90,
+        image: "/cdn/shop/files/4.2.webp@v=1768079447&width=352",
+        url: "products/maquina-de-planchar-automatica.html"
+      },
+      {
+        handle: "laminas-decorativas-para-cristales-60x120-cm",
+        title: "Láminas Decorativas para Cristales - 60 x 120 cm",
+        price: 5.99,
+        compareAtPrice: 24.99,
+        image: "/cdn/shop/files/BlueCanglang.webp@v=1782863466&width=352",
+        url: "products/laminas-decorativas-para-cristales-60x120-cm.html"
+      },
+      {
+        handle: "rollo-adhesivo-efecto-marmol-120x300-cm-impermeable",
+        title: "Paneles de Mármol Flexible 270 × 110 cm",
+        price: 5.00,
+        compareAtPrice: null,
+        image: "/cdn/shop/files/37-ROTOLO-ADESIVO-MARMO-300X120.jpg@v=1779816926&width=352",
+        url: "products/rollo-adhesivo-efecto-marmol-120x300-cm-impermeable.html"
       }
     ]
   };

@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Thank you for your order – Velora Home</title>
+<title>Gracias por tu pedido – Velora Home</title>
 <!-- TikTok Pixel Code Start -->
 <script>
   window.tikTokPixelId = "D9T0IG3C77UCQMCB3Q8G";
@@ -154,17 +154,17 @@
 
 <header class="site-header" style="display:flex;align-items:center;">
   <a href="index.html"><img src="../cdn/shop/files/velora_logo.webp@height=156&v=1784760651" alt="Velora Home"></a>
-<div style="margin-left:auto;"><details class="header-actions__action locale-switcher-dropdown" style="position:relative;display:inline-flex;align-items:center;vertical-align:middle;"><summary style="list-style:none;cursor:pointer;display:flex;align-items:center;gap:4px;font-size:12px;font-weight:700;letter-spacing:.03em;color:var(--color-fg);border:1px solid currentColor;opacity:.85;border-radius:999px;padding:4px 10px;line-height:1;" aria-label="Cambia lingua">EN<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="none" width="10" height="10"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="m5 7.5 5 5 5-5"/></svg></summary><div style="position:absolute;top:calc(100% + 6px);right:0;background:var(--color-background, #fff);border:1px solid rgba(17,17,17,.12);border-radius:8px;box-shadow:0 8px 20px rgba(0,0,0,.12);min-width:72px;overflow:hidden;z-index:60;"><a href="../it/checkout-success.html" style="display:block;padding:8px 14px;font-size:13px;font-weight:600;color:var(--color-fg);text-decoration:none;white-space:nowrap;" onmouseover="this.style.background='rgba(17,17,17,.06)'" onmouseout="this.style.background=''">IT</a><a href="../es/checkout-success.html" style="display:block;padding:8px 14px;font-size:13px;font-weight:600;color:var(--color-fg);text-decoration:none;white-space:nowrap;" onmouseover="this.style.background='rgba(17,17,17,.06)'" onmouseout="this.style.background=''">ES</a></div></details></div></header>
+<div style="margin-left:auto;"><details class="header-actions__action locale-switcher-dropdown" style="position:relative;display:inline-flex;align-items:center;vertical-align:middle;"><summary style="list-style:none;cursor:pointer;display:flex;align-items:center;gap:4px;font-size:12px;font-weight:700;letter-spacing:.03em;color:var(--color-fg);border:1px solid currentColor;opacity:.85;border-radius:999px;padding:4px 10px;line-height:1;" aria-label="Cambiar idioma">ES<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="none" width="10" height="10"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="m5 7.5 5 5 5-5"/></svg></summary><div style="position:absolute;top:calc(100% + 6px);right:0;background:var(--color-background, #fff);border:1px solid rgba(17,17,17,.12);border-radius:8px;box-shadow:0 8px 20px rgba(0,0,0,.12);min-width:72px;overflow:hidden;z-index:60;"><a href="../it/checkout-success.html" style="display:block;padding:8px 14px;font-size:13px;font-weight:600;color:var(--color-fg);text-decoration:none;white-space:nowrap;" onmouseover="this.style.background='rgba(17,17,17,.06)'" onmouseout="this.style.background=''">IT</a><a href="../en/checkout-success.html" style="display:block;padding:8px 14px;font-size:13px;font-weight:600;color:var(--color-fg);text-decoration:none;white-space:nowrap;" onmouseover="this.style.background='rgba(17,17,17,.06)'" onmouseout="this.style.background=''">EN</a></div></details></div></header>
 
 <main>
   <div id="status-root">
     <div class="status-icon loading">…</div>
-    <h1 class="page-title">Verifying your payment…</h1>
-    <p class="subtitle">One moment, we're confirming your order.</p>
+    <h1 class="page-title">Verificando tu pago…</h1>
+    <p class="subtitle">Un momento, estamos confirmando tu pedido.</p>
   </div>
 </main>
 
-<script>window.SITE_LOCALE = "en";</script><script src="../cart.js"></script>
+<script>window.SITE_LOCALE = "es";</script><script src="../cart.js"></script>
 <script>
 (function () {
   var cart = window.VeloraCart;
@@ -185,21 +185,21 @@
 
     root.innerHTML =
       "<div class=\"status-icon success\">✓</div>" +
-      "<h1 class=\"page-title\">Thank you for your order!</h1>" +
-      "<p class=\"subtitle\">Your payment has been confirmed. You'll receive a confirmation by email.</p>" +
+      "<h1 class=\"page-title\">Gracias por tu pedido!</h1>" +
+      "<p class=\"subtitle\">Tu pago ha sido confirmado. Recibirás una confirmación por correo electrónico.</p>" +
       "<div class=\"order-summary\">" + itemsHtml +
         "<div class=\"order-summary__total\"><span>Total</span><span>" + cart.formatPrice(data.value) + "</span></div>" +
       "</div>" +
-      "<a class=\"continue-shopping\" href=\"index.html\">Continue shopping</a>";
+      "<a class=\"continue-shopping\" href=\"index.html\">Seguir comprando</a>";
   }
 
   function renderError() {
     var root = document.getElementById("status-root");
     root.innerHTML =
       "<div class=\"status-icon error\">!</div>" +
-      "<h1 class=\"page-title\">We couldn't confirm your payment</h1>" +
-      "<p class=\"subtitle\">If you completed the payment and the issue persists, please contact us with the time of purchase.</p>" +
-      "<a class=\"continue-shopping\" href=\"cart.html\">Back to cart</a>";
+      "<h1 class=\"page-title\">No pudimos confirmar el pago</h1>" +
+      "<p class=\"subtitle\">Si completaste el pago y el problema persiste, contáctanos indicando la hora de la compra.</p>" +
+      "<a class=\"continue-shopping\" href=\"cart.html\">Volver al carrito</a>";
   }
 
   var params = new URLSearchParams(window.location.search);

@@ -1,22 +1,6 @@
 const Stripe = require("stripe");
 const { PRODUCTS_BY_LOCALE } = require("./_catalog");
-
-const LOCALE_CONFIG = {
-  it: {
-    currency: "eur",
-    allowedCountries: ["IT"],
-    shippingLabel: "Spedizione Gratuita",
-    cartPath: "/it/cart.html",
-    successPath: "/it/checkout-success.html"
-  },
-  en: {
-    currency: "gbp",
-    allowedCountries: ["GB"],
-    shippingLabel: "Free Shipping",
-    cartPath: "/en/cart.html",
-    successPath: "/en/checkout-success.html"
-  }
-};
+const { LOCALE_CONFIG, resolveLocale } = require("./_locales");
 
 module.exports = async function handler(req, res) {
   if (req.method !== "POST") {
@@ -25,21 +9,27 @@ module.exports = async function handler(req, res) {
     return;
   }
 
-  if (!process.env.STRIPE_SECRET_KEY) {
-    res.status(500).json({ error: "STRIPE_SECRET_KEY non configurata" });
-    return;
-  }
-
   try {
     const body = typeof req.body === "string" ? JSON.parse(req.body) : req.body;
     const items = Array.isArray(body && body.items) ? body.items : [];
-    const locale = (body && body.locale === "en") ? "en" : "it";
+    const locale = resolveLocale(body && body.locale);
     const config = LOCALE_CONFIG[locale];
     const PRODUCTS = PRODUCTS_BY_LOCALE[locale];
     const trackingParams = (body && body.trackingParams) || {};
 
+    const stripeSecretKey = process.env[config.stripeKeyEnv];
+    if (!stripeSecretKey) {
+      res.status(500).json({ error: config.stripeKeyEnv + " non configurata" });
+      return;
+    }
+
     if (items.length === 0) {
       res.status(400).json({ error: "Nessun articolo ricevuto" });
+      return;
+    }
+
+    if (!PRODUCTS) {
+      res.status(400).json({ error: "Catalogo non disponibile per la lingua: " + locale });
       return;
     }
 
@@ -81,7 +71,7 @@ module.exports = async function handler(req, res) {
       sck: trackingParams.sck || ""
     };
 
-    const stripe = Stripe(process.env.STRIPE_SECRET_KEY);
+    const stripe = Stripe(stripeSecretKey);
     const session = await stripe.checkout.sessions.create({
       mode: "payment",
       line_items,
@@ -105,7 +95,7 @@ module.exports = async function handler(req, res) {
           }
         }
       ],
-      success_url: origin + config.successPath + "?session_id={CHECKOUT_SESSION_ID}",
+      success_url: origin + config.successPath + "?session_id={CHECKOUT_SESSION_ID}&locale=" + locale,
       cancel_url: origin + config.cartPath
     });
 

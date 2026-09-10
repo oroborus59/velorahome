@@ -38,6 +38,24 @@ const PRODUCTS_BY_LOCALE = {
       title: "Flexible Marble Panels 270 × 110 cm",
       price: 4.25
     }
+  },
+  es: {
+    "panel-de-madera-flexible-premium-270x110-cm": {
+      title: "Panel de Madera Flexible Premium – 270x110 cm",
+      price: 5.00
+    },
+    "maquina-de-planchar-automatica": {
+      title: "Máquina de Planchar Automática",
+      price: 29.90
+    },
+    "laminas-decorativas-para-cristales-60x120-cm": {
+      title: "Láminas Decorativas para Cristales - 60 x 120 cm",
+      price: 5.99
+    },
+    "rollo-adhesivo-efecto-marmol-120x300-cm-impermeable": {
+      title: "Paneles de Mármol Flexible 270 × 110 cm",
+      price: 5.00
+    }
   }
 };
 
