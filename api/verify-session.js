@@ -1,4 +1,5 @@
 const Stripe = require("stripe");
+const { sendPaidOrderToUtmify } = require("./_utmify");
 
 module.exports = async function handler(req, res) {
   if (req.method !== "GET") {
@@ -21,10 +22,19 @@ module.exports = async function handler(req, res) {
   try {
     const stripe = Stripe(process.env.STRIPE_SECRET_KEY);
     const session = await stripe.checkout.sessions.retrieve(sessionId, {
-      expand: ["line_items"]
+      expand: ["line_items", "payment_intent.latest_charge.balance_transaction"]
     });
 
     const paid = session.payment_status === "paid";
+
+    if (paid) {
+      // Non deve mai bloccare né far fallire la risposta al cliente.
+      try {
+        await sendPaidOrderToUtmify(session);
+      } catch (err) {
+        console.error("sendPaidOrderToUtmify error:", err);
+      }
+    }
 
     res.status(200).json({
       paid: paid,

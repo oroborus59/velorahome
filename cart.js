@@ -222,6 +222,40 @@
     window.location.href = btn.getAttribute("data-cart-url") || "../cart.html";
   }
 
+  var TRACKING_PARAMS_KEY = "velora_tracking_params";
+
+  /* Cattura i parametri di tracciamento (UTM/TikTok) dall'URL di atterraggio e li
+     salva in localStorage, cosicché sopravvivano alla navigazione interna fino al
+     checkout. Il tema genera link interni con "utm_source=organic" come segnaposto:
+     lo ignoriamo per non sovrascrivere l'attribuzione reale di un click pubblicitario. */
+  function captureTrackingParams() {
+    try {
+      var params = new URLSearchParams(window.location.search);
+      var utmSource = params.get("utm_source");
+      if (!utmSource || utmSource === "organic") return;
+
+      var tracking = {
+        src: params.get("src") || null,
+        sck: params.get("sck") || null,
+        utm_source: utmSource,
+        utm_campaign: params.get("utm_campaign") || null,
+        utm_medium: params.get("utm_medium") || null,
+        utm_content: params.get("utm_content") || null,
+        utm_term: params.get("utm_term") || null
+      };
+      window.localStorage.setItem(TRACKING_PARAMS_KEY, JSON.stringify(tracking));
+    } catch (e) { /* localStorage non disponibile, ignora */ }
+  }
+
+  function getTrackingParams() {
+    try {
+      var raw = window.localStorage.getItem(TRACKING_PARAMS_KEY);
+      return raw ? JSON.parse(raw) : null;
+    } catch (e) {
+      return null;
+    }
+  }
+
   /* Avvia il checkout Stripe (redirect ospitato) per una lista di articoli.
      items: [{ handle, title, qty }] — il prezzo viene sempre ricalcolato dal server,
      in base alla valuta/lingua corrente. */
@@ -238,7 +272,7 @@
     fetch("/api/create-checkout-session", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ items: items, locale: LOCALE })
+      body: JSON.stringify({ items: items, locale: LOCALE, trackingParams: getTrackingParams() })
     })
       .then(function (res) { return res.json(); })
       .then(function (data) {
@@ -391,6 +425,7 @@
   }
 
   function initPageTracking() {
+    captureTrackingParams();
     initVariantImageSwap();
     initViewContentTracking();
     initLocaleSwitcherDropdown();
@@ -417,6 +452,7 @@
     addFromProductPage: addFromProductPage,
     handleSearchSubmit: handleSearchSubmit,
     trackTikTok: trackTikTok,
+    getTrackingParams: getTrackingParams,
     startStripeCheckout: startStripeCheckout,
     buyNowStripe: buyNowStripe,
     stepQuantity: stepQuantity

@@ -36,6 +36,7 @@ module.exports = async function handler(req, res) {
     const locale = (body && body.locale === "en") ? "en" : "it";
     const config = LOCALE_CONFIG[locale];
     const PRODUCTS = PRODUCTS_BY_LOCALE[locale];
+    const trackingParams = (body && body.trackingParams) || {};
 
     if (items.length === 0) {
       res.status(400).json({ error: "Nessun articolo ricevuto" });
@@ -43,6 +44,7 @@ module.exports = async function handler(req, res) {
     }
 
     const line_items = [];
+    const itemHandles = [];
     for (const item of items) {
       const catalogEntry = PRODUCTS[item.handle];
       if (!catalogEntry) {
@@ -60,14 +62,30 @@ module.exports = async function handler(req, res) {
         },
         quantity: qty
       });
+      itemHandles.push(item.handle);
     }
 
     const origin = req.headers.origin || ("https://" + req.headers.host);
+
+    // Metadata values must be strings for Stripe; keep it flat so verify-session
+    // can rebuild the Utmify tracking payload after the customer pays.
+    const metadata = {
+      locale: locale,
+      item_handles: JSON.stringify(itemHandles),
+      utm_source: trackingParams.utm_source || "",
+      utm_campaign: trackingParams.utm_campaign || "",
+      utm_medium: trackingParams.utm_medium || "",
+      utm_content: trackingParams.utm_content || "",
+      utm_term: trackingParams.utm_term || "",
+      src: trackingParams.src || "",
+      sck: trackingParams.sck || ""
+    };
 
     const stripe = Stripe(process.env.STRIPE_SECRET_KEY);
     const session = await stripe.checkout.sessions.create({
       mode: "payment",
       line_items,
+      metadata: metadata,
       shipping_address_collection: {
         allowed_countries: config.allowedCountries
       },
