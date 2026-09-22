@@ -24,8 +24,12 @@ const LOCALE_CONFIG = {
     shippingLabel: "Envío Gratis",
     cartPath: "/es/cart.html",
     successPath: "/es/checkout-success.html",
-    // Idioma spagnolo: gateway Stripe dedicato, account separato da IT/EN.
-    stripeKeyEnv: "STRIPE_SECRET_KEY_ES"
+    // TEMPORANEO: l'idioma spagnolo usa lo stesso account Stripe di IT/EN
+    // (checkout ospitato) finché l'account dedicato "es" non è pronto/sostituito.
+    // Il checkout proprio (Bizum-only) resta pronto e inutilizzato in
+    // es/checkout.html + api/create-bizum-payment-intent.js — per passare
+    // all'account dedicato, rimettere qui "STRIPE_SECRET_KEY_ES".
+    stripeKeyEnv: "STRIPE_SECRET_KEY"
   }
 };
 

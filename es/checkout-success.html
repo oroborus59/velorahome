@@ -204,11 +204,18 @@
 
   var params = new URLSearchParams(window.location.search);
   var sessionId = params.get("session_id");
+  var paymentIntentId = params.get("payment_intent");
 
-  if (!sessionId) {
+  var verifyUrl = paymentIntentId
+    ? "/api/verify-payment-intent?payment_intent=" + encodeURIComponent(paymentIntentId)
+    : sessionId
+      ? "/api/verify-session?session_id=" + encodeURIComponent(sessionId) + "&locale=" + encodeURIComponent(window.SITE_LOCALE || "it")
+      : null;
+
+  if (!verifyUrl) {
     renderError();
   } else {
-    fetch("/api/verify-session?session_id=" + encodeURIComponent(sessionId) + "&locale=" + encodeURIComponent(window.SITE_LOCALE || "it"))
+    fetch(verifyUrl)
       .then(function (res) { return res.json(); })
       .then(function (data) {
         if (data && data.paid) {

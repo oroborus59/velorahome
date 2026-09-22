@@ -2,6 +2,8 @@
 // alle campagne pubblicitarie (TikTok Ads, ecc.). Non deve mai bloccare né rompere
 // la risposta al cliente: eventuali errori vengono solo loggati.
 
+const { PRODUCTS_BY_LOCALE } = require("./_catalog");
+
 function pad(n) {
   return String(n).padStart(2, "0");
 }
@@ -87,14 +89,13 @@ function buildPayload(session) {
   };
 }
 
-async function sendPaidOrderToUtmify(session) {
+async function postPayloadToUtmify(payload) {
   const apiToken = process.env.UTMIFY_API_TOKEN;
   if (!apiToken) {
     console.warn("UTMIFY_API_TOKEN non configurata: invio a Utmify saltato");
     return;
   }
 
-  const payload = buildPayload(session);
   const controller = new AbortController();
   const timeout = setTimeout(function () { controller.abort(); }, 8000);
 
@@ -116,4 +117,80 @@ async function sendPaidOrderToUtmify(session) {
   }
 }
 
-module.exports = { sendPaidOrderToUtmify, buildPayload };
+async function sendPaidOrderToUtmify(session) {
+  await postPayloadToUtmify(buildPayload(session));
+}
+
+// Come buildProducts, ma a partire dai metadata di un PaymentIntent (checkout
+// Bizum) invece che dai line_items di una Checkout Session: il catalogo server-side
+// resta l'unica fonte di verità per titolo e prezzo.
+function buildProductsFromMetadata(metadata) {
+  let orderItems = [];
+  try { orderItems = JSON.parse(metadata.item_handles || "[]"); } catch (e) { /* ignora */ }
+
+  const PRODUCTS = PRODUCTS_BY_LOCALE.es;
+  return orderItems.map(function (oi) {
+    const catalogEntry = PRODUCTS[oi.handle];
+    return {
+      id: oi.handle,
+      name: catalogEntry ? catalogEntry.title : oi.handle,
+      planId: null,
+      planName: null,
+      quantity: oi.qty,
+      priceInCents: catalogEntry ? Math.round(catalogEntry.price * 100) : 0
+    };
+  });
+}
+
+function buildPayloadFromPaymentIntent(intent) {
+  const metadata = intent.metadata || {};
+  const totalPriceInCents = intent.amount || 0;
+
+  return {
+    orderId: intent.id,
+    platform: "VeloraHome",
+    // NOTA: valore provvisorio in attesa di conferma da parte dell'utente su
+    // quale enum Utmify si aspetti per un pagamento Bizum (non è una carta).
+    paymentMethod: "pix",
+    status: "paid",
+    createdAt: formatUtmifyDate(intent.created),
+    approvedDate: formatUtmifyDate(intent.created),
+    refundedAt: null,
+    customer: {
+      name: metadata.customer_name || (intent.shipping && intent.shipping.name) || "N/A",
+      email: "",
+      phone: metadata.customer_phone || (intent.shipping && intent.shipping.phone) || null,
+      document: null,
+      country: "ES"
+    },
+    products: buildProductsFromMetadata(metadata),
+    trackingParameters: {
+      src: metadata.src || null,
+      sck: metadata.sck || null,
+      utm_source: metadata.utm_source || null,
+      utm_campaign: metadata.utm_campaign || null,
+      utm_medium: metadata.utm_medium || null,
+      utm_content: metadata.utm_content || null,
+      utm_term: metadata.utm_term || null
+    },
+    commission: {
+      totalPriceInCents: totalPriceInCents,
+      // Bizum non espone la fee del gateway su questo oggetto: il valore esatto
+      // resta comunque visibile nella dashboard Stripe.
+      gatewayFeeInCents: 0,
+      userCommissionInCents: totalPriceInCents,
+      currency: (intent.currency || "eur").toUpperCase()
+    }
+  };
+}
+
+async function sendPaidOrderToUtmifyFromPaymentIntent(intent) {
+  await postPayloadToUtmify(buildPayloadFromPaymentIntent(intent));
+}
+
+module.exports = {
+  sendPaidOrderToUtmify,
+  sendPaidOrderToUtmifyFromPaymentIntent,
+  buildPayload,
+  buildPayloadFromPaymentIntent
+};

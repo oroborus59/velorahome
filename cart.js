@@ -291,9 +291,30 @@
     }
   }
 
-  /* Avvia il checkout Stripe (redirect ospitato) per una lista di articoli.
-     items: [{ handle, title, qty }] — il prezzo viene sempre ricalcolato dal server,
-     in base alla valuta/lingua corrente. */
+  /* Chiave sessionStorage usata solo per passare gli articoli da acquistare alla
+     pagina /es/checkout.html (checkout Bizum proprio): è un handoff temporaneo,
+     non il carrello persistente, cosicché "Comprar ahora" continui a fare
+     checkout del solo articolo cliccato e non dell'intero carrello. */
+  var CHECKOUT_ITEMS_KEY = "velora_checkout_items_" + LOCALE;
+
+  function getCheckoutItems() {
+    try {
+      var raw = window.sessionStorage.getItem(CHECKOUT_ITEMS_KEY);
+      return raw ? JSON.parse(raw) : [];
+    } catch (e) {
+      return [];
+    }
+  }
+
+  /* Avvia il checkout per una lista di articoli. items: [{ handle, title, qty }]
+     — il prezzo viene sempre ricalcolato dal server, in base alla valuta/lingua
+     corrente.
+
+     TEMPORANEO: l'idioma spagnolo usa il checkout ospitato di Stripe con lo
+     stesso account di IT/EN (vedi api/_locales.js) finché l'account dedicato
+     "es" non è pronto. Il redirect verso il checkout proprio (Bizum-only,
+     es/checkout.html) resta qui sotto disattivato ma pronto — per riattivarlo,
+     togliere il commento e vedere anche api/_locales.js (stripeKeyEnv di "es"). */
   function startStripeCheckout(items) {
     if (!items || items.length === 0) return;
 
@@ -303,6 +324,12 @@
       }),
       currency: CURRENCY
     });
+
+    // if (LOCALE === "es") {
+    //   try { window.sessionStorage.setItem(CHECKOUT_ITEMS_KEY, JSON.stringify(items)); } catch (e) { /* ignora */ }
+    //   window.location.href = "/es/checkout.html";
+    //   return;
+    // }
 
     fetch("/api/create-checkout-session", {
       method: "POST",
@@ -489,6 +516,7 @@
     trackTikTok: trackTikTok,
     getTrackingParams: getTrackingParams,
     startStripeCheckout: startStripeCheckout,
+    getCheckoutItems: getCheckoutItems,
     buyNowStripe: buyNowStripe,
     stepQuantity: stepQuantity
   };
