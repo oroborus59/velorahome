@@ -56,6 +56,24 @@ const PRODUCTS_BY_LOCALE = {
       title: "Paneles de Mármol Flexible 270 × 110 cm",
       price: 5.00
     }
+  },
+  pt: {
+    "painel-de-madeira-flexivel-premium-270x110-cm": {
+      title: "Painel de Madeira Flexível Premium – 270x110 cm",
+      price: 5.00
+    },
+    "maquina-de-engomar-automatica": {
+      title: "Máquina de Engomar Automática",
+      price: 29.90
+    },
+    "peliculas-decorativas-para-vidros-60x120-cm": {
+      title: "Películas Decorativas para Vidros - 60 x 120 cm",
+      price: 5.99
+    },
+    "rolo-adesivo-efeito-marmore-120x300-cm-impermeavel": {
+      title: "Painéis de Mármore Flexível 270 × 110 cm",
+      price: 5.00
+    }
   }
 };
 

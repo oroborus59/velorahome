@@ -3,9 +3,9 @@
 (function (window) {
   "use strict";
 
-  var VALID_LOCALES = { it: true, en: true, es: true };
+  var VALID_LOCALES = { it: true, en: true, es: true, pt: true };
   var LOCALE = VALID_LOCALES[window.SITE_LOCALE] ? window.SITE_LOCALE : "it";
-  var CURRENCY_BY_LOCALE = { it: "EUR", en: "GBP", es: "EUR" };
+  var CURRENCY_BY_LOCALE = { it: "EUR", en: "GBP", es: "EUR", pt: "EUR" };
   var CURRENCY = CURRENCY_BY_LOCALE[LOCALE];
 
   var CART_KEY = "velora_cart_" + LOCALE;
@@ -111,6 +111,40 @@
         compareAtPrice: null,
         image: "/cdn/shop/files/37-ROTOLO-ADESIVO-MARMO-300X120.jpg@v=1779816926&width=352",
         url: "products/rollo-adhesivo-efecto-marmol-120x300-cm-impermeable.html"
+      }
+    ],
+    pt: [
+      {
+        handle: "painel-de-madeira-flexivel-premium-270x110-cm",
+        title: "Painel de Madeira Flexível Premium – 270x110 cm",
+        price: 5.00,
+        compareAtPrice: null,
+        image: "/cdn/shop/files/N-OAK-LIGHT_8335bf77-ad28-457d-937a-796529edc282.webp@v=1767622252&width=352",
+        url: "products/painel-de-madeira-flexivel-premium-270x110-cm.html"
+      },
+      {
+        handle: "maquina-de-engomar-automatica",
+        title: "Máquina de Engomar Automática",
+        price: 29.90,
+        compareAtPrice: 66.90,
+        image: "/cdn/shop/files/4.2.webp@v=1768079447&width=352",
+        url: "products/maquina-de-engomar-automatica.html"
+      },
+      {
+        handle: "peliculas-decorativas-para-vidros-60x120-cm",
+        title: "Películas Decorativas para Vidros - 60 x 120 cm",
+        price: 5.99,
+        compareAtPrice: 24.99,
+        image: "/cdn/shop/files/BlueCanglang.webp@v=1782863466&width=352",
+        url: "products/peliculas-decorativas-para-vidros-60x120-cm.html"
+      },
+      {
+        handle: "rolo-adesivo-efeito-marmore-120x300-cm-impermeavel",
+        title: "Painéis de Mármore Flexível 270 × 110 cm",
+        price: 5.00,
+        compareAtPrice: null,
+        image: "/cdn/shop/files/37-ROTOLO-ADESIVO-MARMO-300X120.jpg@v=1779816926&width=352",
+        url: "products/rolo-adesivo-efeito-marmore-120x300-cm-impermeavel.html"
       }
     ]
   };

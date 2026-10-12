@@ -30,6 +30,18 @@ const LOCALE_CONFIG = {
     // es/checkout.html + api/create-bizum-payment-intent.js — per passare
     // all'account dedicato, rimettere qui "STRIPE_SECRET_KEY_ES".
     stripeKeyEnv: "STRIPE_SECRET_KEY"
+  },
+  pt: {
+    currency: "eur",
+    allowedCountries: ["PT"],
+    shippingLabel: "Envio Grátis",
+    cartPath: "/pt/cart.html",
+    successPath: "/pt/checkout-success.html",
+    // Idioma portoghese (Portogallo): gateway Stripe dedicato, account separato
+    // dagli altri. La chiave non è ancora configurata: finché STRIPE_SECRET_KEY_PT
+    // non esiste su Vercel, create-checkout-session.js risponde con un 500
+    // gestito (stesso comportamento già usato per gli altri gateway mancanti).
+    stripeKeyEnv: "STRIPE_SECRET_KEY_PT"
   }
 };
 
