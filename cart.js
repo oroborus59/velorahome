@@ -195,11 +195,13 @@
     saveCart(cart);
 
     trackTikTok("AddToCart", {
-      content_id: item.handle || item.id,
-      content_type: "product",
-      content_name: item.title,
-      quantity: item.qty,
-      price: item.price,
+      contents: [{
+        content_id: item.handle || item.id,
+        content_type: "product",
+        content_name: item.title,
+        quantity: item.qty,
+        price: item.price
+      }],
       value: item.price * item.qty,
       currency: CURRENCY
     });
@@ -352,10 +354,19 @@
   function startStripeCheckout(items) {
     if (!items || items.length === 0) return;
 
+    var checkoutValue = 0;
+    var checkoutContents = items.map(function (i) {
+      var catalogItem = null;
+      for (var k = 0; k < PRODUCTS.length; k++) {
+        if (PRODUCTS[k].handle === i.handle) { catalogItem = PRODUCTS[k]; break; }
+      }
+      var unitPrice = catalogItem ? catalogItem.price : 0;
+      checkoutValue += unitPrice * i.qty;
+      return { content_id: i.handle, content_type: "product", content_name: i.title, quantity: i.qty, price: unitPrice };
+    });
     trackTikTok("InitiateCheckout", {
-      contents: items.map(function (i) {
-        return { content_id: i.handle, content_type: "product", content_name: i.title, quantity: i.qty };
-      }),
+      contents: checkoutContents,
+      value: checkoutValue,
       currency: CURRENCY
     });
 
@@ -498,11 +509,13 @@
     if (!btn) return;
     var price = parseFloat(btn.getAttribute("data-product-price"));
     trackTikTok("ViewContent", {
-      content_id: btn.getAttribute("data-product-id"),
-      content_type: "product",
-      content_name: btn.getAttribute("data-product-title"),
-      quantity: 1,
-      price: price,
+      contents: [{
+        content_id: btn.getAttribute("data-product-id"),
+        content_type: "product",
+        content_name: btn.getAttribute("data-product-title"),
+        quantity: 1,
+        price: price
+      }],
       value: price,
       currency: CURRENCY
     });

@@ -39,6 +39,7 @@ module.exports = async function handler(req, res) {
       items = orderItems.map(function (oi) {
         const catalogEntry = PRODUCTS[oi.handle];
         return {
+          id: oi.handle,
           name: catalogEntry ? catalogEntry.title : oi.handle,
           quantity: oi.qty,
           amount: catalogEntry ? catalogEntry.price * oi.qty : 0

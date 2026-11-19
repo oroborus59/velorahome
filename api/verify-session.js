@@ -52,6 +52,13 @@ module.exports = async function handler(req, res) {
 
     const paid = session.payment_status === "paid";
 
+    // Handles dos produtos, na mesma ordem dos line_items (gravados em
+    // create-checkout-session): usados como content_id no evento do TikTok.
+    let orderHandles = [];
+    try {
+      orderHandles = JSON.parse((session.metadata && session.metadata.item_handles) || "[]");
+    } catch (e) { /* ignora */ }
+
     if (paid) {
       // Non deve mai bloccare né far fallire la risposta al cliente.
       try {
@@ -67,8 +74,9 @@ module.exports = async function handler(req, res) {
       currency: paid ? (session.currency || "eur").toUpperCase() : null,
       identity: paid ? buildTikTokIdentity(session) : null,
       items: paid && session.line_items
-        ? session.line_items.data.map(function (li) {
+        ? session.line_items.data.map(function (li, i) {
             return {
+              id: orderHandles[i] || null,
               name: li.description,
               quantity: li.quantity,
               amount: (li.amount_total || 0) / 100

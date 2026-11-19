@@ -235,9 +235,9 @@
         if (data && data.paid) {
           renderSuccess(data);
           try { if (data.identity && window.ttq) { window.ttq.identify(data.identity); } } catch (e) { /* o pixel nunca deve quebrar a página */ }
-          cart.trackTikTok("CompletePayment", {
+          cart.trackTikTok("Purchase", {
             contents: (data.items || []).map(function (i) {
-              return { content_type: "product", content_name: i.name, quantity: i.quantity, price: i.amount };
+              return { content_id: i.id || i.name, content_type: "product", content_name: i.name, quantity: i.quantity, price: i.quantity ? i.amount / i.quantity : i.amount };
             }),
             value: data.value,
             currency: data.currency || "EUR"
