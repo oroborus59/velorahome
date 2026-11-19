@@ -148,6 +148,23 @@
     font-size: 0.95rem;
   }
   .continue-shopping:hover { background: var(--color-primary-dark); }
+  .tracking-note {
+    background: var(--color-tan-light);
+    border: 1px solid var(--color-border);
+    border-radius: 8px;
+    padding: 14px 16px;
+    margin: 0 0 28px;
+    font-size: 0.9rem;
+    line-height: 1.5;
+    text-align: left;
+  }
+  .success-actions { display: flex; flex-wrap: wrap; gap: 12px; justify-content: center; }
+  .continue-shopping.secondary {
+    background: transparent;
+    color: var(--color-fg);
+    border: 1px solid var(--color-border);
+  }
+  .continue-shopping.secondary:hover { background: var(--color-tan-light); }
 </style>
 </head>
 <body>
@@ -187,10 +204,14 @@
       "<div class=\"status-icon success\">✓</div>" +
       "<h1 class=\"page-title\">Gracias por tu pedido!</h1>" +
       "<p class=\"subtitle\">Tu pago ha sido confirmado. Recibirás una confirmación por correo electrónico.</p>" +
+      "<p class=\"tracking-note\">Te enviaremos el código de seguimiento por correo electrónico. Si no lo encuentras en la bandeja de entrada, revisa también las carpetas de spam y de papelera.</p>" +
       "<div class=\"order-summary\">" + itemsHtml +
         "<div class=\"order-summary__total\"><span>Total</span><span>" + cart.formatPrice(data.value) + "</span></div>" +
       "</div>" +
-      "<a class=\"continue-shopping\" href=\"index.html\">Seguir comprando</a>";
+      "<div class=\"success-actions\">" +
+        "<a class=\"continue-shopping\" href=\"track.html\">Seguir mi pedido</a>" +
+        "<a class=\"continue-shopping secondary\" href=\"index.html\">Seguir comprando</a>" +
+      "</div>";
   }
 
   function renderError() {

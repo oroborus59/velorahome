@@ -148,6 +148,23 @@
     font-size: 0.95rem;
   }
   .continue-shopping:hover { background: var(--color-primary-dark); }
+  .tracking-note {
+    background: var(--color-tan-light);
+    border: 1px solid var(--color-border);
+    border-radius: 8px;
+    padding: 14px 16px;
+    margin: 0 0 28px;
+    font-size: 0.9rem;
+    line-height: 1.5;
+    text-align: left;
+  }
+  .success-actions { display: flex; flex-wrap: wrap; gap: 12px; justify-content: center; }
+  .continue-shopping.secondary {
+    background: transparent;
+    color: var(--color-fg);
+    border: 1px solid var(--color-border);
+  }
+  .continue-shopping.secondary:hover { background: var(--color-tan-light); }
 </style>
 </head>
 <body>
@@ -187,17 +204,21 @@
       "<div class=\"status-icon success\">✓</div>" +
       "<h1 class=\"page-title\">Obrigado pela sua encomenda!</h1>" +
       "<p class=\"subtitle\">O pagamento foi confirmado. Irá receber uma confirmação por email.</p>" +
+      "<p class=\"tracking-note\">O código de rastreio será enviado para o seu e-mail. Se não o encontrar na caixa de entrada, verifique também as pastas de spam e de lixo.</p>" +
       "<div class=\"order-summary\">" + itemsHtml +
         "<div class=\"order-summary__total\"><span>Total</span><span>" + cart.formatPrice(data.value) + "</span></div>" +
       "</div>" +
-      "<a class=\"continue-shopping\" href=\"index.html\">Continuar a comprar</a>";
+      "<div class=\"success-actions\">" +
+        "<a class=\"continue-shopping\" href=\"track.html\">Acompanhar encomenda</a>" +
+        "<a class=\"continue-shopping secondary\" href=\"index.html\">Continuar a comprar</a>" +
+      "</div>";
   }
 
   function renderError() {
     var root = document.getElementById("status-root");
     root.innerHTML =
       "<div class=\"status-icon error\">!</div>" +
-      "<h1 class=\"page-title\">Náo foi possível confirmar o pagamento</h1>" +
+      "<h1 class=\"page-title\">Não foi possível confirmar o pagamento</h1>" +
       "<p class=\"subtitle\">Se concluiu o pagamento e o problema persistir, contacte-nos indicando a hora da compra.</p>" +
       "<a class=\"continue-shopping\" href=\"cart.html\">Voltar ao carrinho</a>";
   }
