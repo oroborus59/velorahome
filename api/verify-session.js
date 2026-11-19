@@ -1,6 +1,27 @@
+const crypto = require("crypto");
 const Stripe = require("stripe");
 const { sendPaidOrderToUtmify } = require("./_utmify");
 const { LOCALE_CONFIG, resolveLocale } = require("./_locales");
+
+function sha256(value) {
+  return crypto.createHash("sha256").update(value).digest("hex");
+}
+
+// Dados do comprador já criptografados (SHA-256), no formato do ttq.identify do
+// TikTok. O e-mail/telefone em texto puro nunca é enviado ao navegador.
+function buildTikTokIdentity(session) {
+  const details = session.customer_details || {};
+  const identity = {};
+
+  const email = details.email && String(details.email).trim().toLowerCase();
+  if (email) identity.email = sha256(email);
+
+  const phone = details.phone && String(details.phone).replace(/[^\d+]/g, "");
+  if (phone) identity.phone_number = sha256(phone);
+
+  identity.external_id = sha256(session.id);
+  return identity;
+}
 
 module.exports = async function handler(req, res) {
   if (req.method !== "GET") {
@@ -44,6 +65,7 @@ module.exports = async function handler(req, res) {
       paid: paid,
       value: paid ? (session.amount_total || 0) / 100 : null,
       currency: paid ? (session.currency || "eur").toUpperCase() : null,
+      identity: paid ? buildTikTokIdentity(session) : null,
       items: paid && session.line_items
         ? session.line_items.data.map(function (li) {
             return {

@@ -234,6 +234,7 @@
       .then(function (data) {
         if (data && data.paid) {
           renderSuccess(data);
+          try { if (data.identity && window.ttq) { window.ttq.identify(data.identity); } } catch (e) { /* o pixel nunca deve quebrar a página */ }
           cart.trackTikTok("CompletePayment", {
             contents: (data.items || []).map(function (i) {
               return { content_type: "product", content_name: i.name, quantity: i.quantity, price: i.amount };
